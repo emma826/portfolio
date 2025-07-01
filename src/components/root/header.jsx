@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
     NavigationMenu,
     NavigationMenuItem,
-    NavigationMenuLink,
+    Link,
     NavigationMenuList,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
@@ -39,36 +39,36 @@ export default function Header() {
                     <NavigationMenu className="hidden lg:block">
                         <NavigationMenuList>
                             <NavigationMenuItem>
-                                <NavigationMenuLink
+                                <Link
                                     href="/projects"
                                     className={navigationMenuTriggerStyle()}
                                 >
                                     Projects
-                                </NavigationMenuLink>
+                                </Link>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
-                                <NavigationMenuLink
+                                <Link
                                     href="/blog"
                                     className={navigationMenuTriggerStyle()}
                                 >
                                     Blog
-                                </NavigationMenuLink>
+                                </Link>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
-                                <NavigationMenuLink
+                                <Link
                                     href="/resume"
                                     className={navigationMenuTriggerStyle()}
                                 >
                                     Resume
-                                </NavigationMenuLink>
+                                </Link>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
-                                <NavigationMenuLink
+                                <Link
                                     href="/about"
                                     className={navigationMenuTriggerStyle()}
                                 >
                                     About Me
-                                </NavigationMenuLink>
+                                </Link>
                             </NavigationMenuItem>
                         </NavigationMenuList>
                     </NavigationMenu>

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import {
     NavigationMenu,
     NavigationMenuItem,
-    Link,
+    NavigationMenuLink,
     NavigationMenuList,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
@@ -39,41 +39,41 @@ export default function Header() {
                     <NavigationMenu className="hidden lg:block">
                         <NavigationMenuList>
                             <NavigationMenuItem>
-                                <Link
+                                <NavigationMenuLink
                                     href="/projects"
                                     className={navigationMenuTriggerStyle()}
                                 >
                                     Projects
-                                </Link>
+                                </NavigationMenuLink>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
-                                <Link
+                                <NavigationMenuLink
                                     href="/blog"
                                     className={navigationMenuTriggerStyle()}
                                 >
                                     Blog
-                                </Link>
+                                </NavigationMenuLink>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
-                                <Link
+                                <NavigationMenuLink
                                     href="/resume"
                                     className={navigationMenuTriggerStyle()}
                                 >
                                     Resume
-                                </Link>
+                                </NavigationMenuLink>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
-                                <Link
+                                <NavigationMenuLink
                                     href="/about"
                                     className={navigationMenuTriggerStyle()}
                                 >
                                     About Me
-                                </Link>
+                                </NavigationMenuLink>
                             </NavigationMenuItem>
                         </NavigationMenuList>
                     </NavigationMenu>
                     <div className="hidden items-center gap-4 lg:flex">
-                        <Button variant="outline">Sign in</Button>
+                        {/* <Button variant="outline">Sign in</Button> */}
                     </div>
                     <Sheet>
                         <SheetTrigger asChild className="lg:hidden">
@@ -113,9 +113,9 @@ export default function Header() {
                                         About Us
                                     </Link>
                                 </div>
-                                <div className="mt-6 flex flex-col gap-4">
+                                {/* <div className="mt-6 flex flex-col gap-4">
                                     <Button variant="outline">Sign in</Button>
-                                </div>
+                                </div> */}
                             </div>
                         </SheetContent>
                     </Sheet>

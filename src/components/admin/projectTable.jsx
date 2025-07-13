@@ -1,7 +1,7 @@
 'use client'
 
 import { Input } from "../ui/input"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "../ui/button"
 import {
     Table, TableBody, TableHead, TableHeader, TableCell, TableRow
@@ -9,8 +9,9 @@ import {
 import {
     Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger
 } from "@/components/ui/dialog"
+import { Textarea } from "../ui/textarea"
 
-import add_projects from "@/server_actions/project_actions"
+import { add_projects, get_projects, delete_project } from "@/server_actions/project_actions"
 
 export default function ProjectTable() {
     const [name, setName] = useState("")
@@ -45,39 +46,56 @@ export default function ProjectTable() {
         setSuccess("");
 
         // Validate inputs
-        if (!name || !description || !featureImage || !github) {
+        if (!name || !description || !github) {
             setError("All fields are required.");
             setUploading(false);
+
+            setTimeout(() => {
+                setError("");
+            }, 3000);
             return;
         }
 
-        if(!liveDemo) {
+        if (!liveDemo) {
             setLiveDemo("#");
         }
 
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('description', description);
-        formData.append('github', github);
-        formData.append('liveDemo', liveDemo);
-        formData.append('featureImage', featureImage);
+        const addProjects = add_projects(name, description, featureImage, github, liveDemo);
 
-        const add_projects = add_projects(name, description, featureImage, github, liveDemo);
-
-        if(!add_projects.success) {
+        if (!addProjects.success) {
             setError(add_projects.message || "Failed to add project.");
             setUploading(false);
+
+            setTimeout(() => {
+                setError("");
+            }, 3000);
+
             return;
         }
         setProjects(prev => [...prev, {
-            id: add_projects.id,
+            id: addProjects.id,
             title: name,
             description,
             github,
             liveDemo,
-            feature_image: add_projects.project.feature_image
+            feature_image: addProjects.project.feature_image
         }]);
     }
+
+    useEffect(() => {
+
+        const fetchProjects = async () => {
+            const response = await get_projects();
+            if (response.success) {
+                setProjects(response.projects);
+            } else {
+                setError(response.message || "Failed to fetch projects.");
+            }
+        };
+
+        fetchProjects();
+
+    }, [])
 
     return (
         <>
@@ -105,22 +123,22 @@ export default function ProjectTable() {
 
                                 <div className="grid w-full max-w-sm items-center gap-3 mb-3">
                                     <label htmlFor="project_name">Project Name</label>
-                                    <Input type={`text`} id="project_name" placeholder="Project Name" />
+                                    <Input type={`text`} id="project_name" placeholder="Project Name" value={name} onChange={(e) => {setName(e.target.value)}} />
                                 </div>
 
                                 <div className="grid w-full max-w-sm items-center gap-3 mb-3">
                                     <label htmlFor="project_description">Project Description</label>
-                                    <Input type={`text`} id="project_description" placeholder="Project Description" />
+                                    <Textarea id="project_description" placeholder="Project Description" rows={4} value={description} onChange={(e) => setDescription(e.target.value)} />
                                 </div>
 
                                 <div className="grid w-full max-w-sm items-center gap-3 mb-3">
                                     <label htmlFor="github_link">Github Link</label>
-                                    <Input type={`text`} id="github_link" placeholder="Github Link" />
+                                    <Input type={`text`} id="github_link" placeholder="Github Link" value={github} onChange={(e) => setGithub(e.target.value)} />
                                 </div>
 
                                 <div className="grid w-full max-w-sm items-center gap-3 mb-3">
                                     <label htmlFor="live_demo_link">Live Demo Link</label>
-                                    <Input type={`text`} id="live_demo_link" placeholder="Live Demo Link" />
+                                    <Input type={`text`} id="live_demo_link" placeholder="Live Demo Link" value={liveDemo} onChange={(e) => setLiveDemo(e.target.value)} />
                                 </div>
 
                                 <div className="grid w-full max-w-sm items-center gap-3 mb-3">
@@ -153,10 +171,10 @@ export default function ProjectTable() {
                     <TableBody>
                         {projects.map((project, index) => (
                             <TableRow key={index} className={`w-full`}>
-                                <TableCell>{project.title}</TableCell>
+                                <TableCell>{project.name}</TableCell>
                                 <TableCell>
-                                    <button className="text-green-700 underline mr-2" onClick={() => handleEdit(project)}>Edit</button>
-                                    <button className="text-red-700 underline" onClick={() => handleDelete(project.id)}>Delete</button>
+                                    {/* <button className="text-green-700 underline mr-2" onClick={() => handleEdit(project)}>Edit</button> */}
+                                    <button className="text-red-700 underline" onClick={async () => await delete_project(project.id)}>Delete</button>
                                 </TableCell>
                             </TableRow>
                         ))}

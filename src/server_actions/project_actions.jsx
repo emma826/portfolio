@@ -3,8 +3,11 @@
 import { query } from "@/dbh"
 
 export async function add_projects(name, description, featureImage, github, liveDemo) {
+
+    let featured_image_name = "none"
+
     // Validate inputs
-    if (!name || !description || !featureImage || !github) {
+    if (!name || !description || !github) {
         return { success: false, message: "All fields are required." };
     }
 
@@ -12,24 +15,26 @@ export async function add_projects(name, description, featureImage, github, live
         liveDemo = "#";
     }
 
-    const formData = new FormData();
-    formData.append("file", featureImage);
-    formData.append("category", "projects");
+    if (featureImage) {
+        const formData = new FormData();
+        formData.append("file", featureImage);
+        formData.append("category", "projects");
 
-    let uploadResponse;
-    try {
-        uploadResponse = await fetch(`${process.env.STORAGE_SERVER}`, {
-            method: "POST",
-            body: formData,
-        });
-        if (!uploadResponse.ok) {
-            return { success: false, message: "Failed to upload image." };
+        let uploadResponse;
+        try {
+            uploadResponse = await fetch(`${process.env.STORAGE_SERVER}`, {
+                method: "POST",
+                body: formData,
+            });
+            if (!uploadResponse.ok) {
+                return { success: false, message: "Failed to upload image." };
+            }
+            const uploadResult = await uploadResponse.json();
+            featured_image_name = uploadResult.fileName;
+        } catch (error) {
+            console.error("Image upload error:", error);
+            return { success: false, message: "Image upload failed." };
         }
-        const uploadResult = await uploadResponse.json();
-        featureImage = uploadResult.fileName || featureImage.name;
-    } catch (error) {
-        console.error("Image upload error:", error);
-        return { success: false, message: "Image upload failed." };
     }
 
     // Prepare SQL query
@@ -37,17 +42,17 @@ export async function add_projects(name, description, featureImage, github, live
         INSERT INTO portfolio_projects (name, description, feature_image, github, live_demo)
         VALUES ($1, $2, $3, $4, $5)
         RETURNING id;
-    `;    
+    `;
 
     // Execute query
-    return query(sql, [name, description, featureImage, github, liveDemo])
+    return query(sql, [name, description, featured_image_name, github, liveDemo])
         .then(res => {
-            return { success: true, id: res.rows[0].id, project: rows[0] };
+            return { success: true, id: res.rows[0].id, project: res.rows[0] };
         })
         .catch(err => {
             console.error("Error adding project:", err);
             return { success: false, message: "Database error." };
-    });
+        });
 
 }
 

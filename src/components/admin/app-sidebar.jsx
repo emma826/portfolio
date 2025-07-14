@@ -78,7 +78,7 @@ const data = {
     },
     {
       name: "Blog",
-      url: "/admin/blog",
+      url: "/admin/blogs",
       icon: Map,
     },
   ],

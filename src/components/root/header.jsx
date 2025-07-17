@@ -23,10 +23,10 @@ import Image from "next/image"
 import { useEffect, useState } from "react";
 
 export default function Header() {
-    const [theme, setTheme] = useState("light");
+    const [theme, setTheme] = useState("dark");
 
     useEffect(() => {
-        const savedTheme = localStorage.getItem("dark");
+        const savedTheme = localStorage.getItem("theme");
         if (savedTheme) {
             setTheme(savedTheme);
         } else {

@@ -1,6 +1,6 @@
 "use client";
 
-import { MenuIcon } from "lucide-react";
+import { MenuIcon, Sun, Moon} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -20,8 +20,23 @@ import {
 
 import Link from "next/link"
 import Image from "next/image"
+import { useEffect, useState } from "react";
 
 export default function Header() {
+
+    const [theme, setTheme] = useState("light");
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem("theme") || "light";
+        setTheme(savedTheme);
+        document.documentElement.classList.toggle("dark", savedTheme === "dark");
+    }, []);
+
+    useEffect(() => {
+        document.documentElement.classList.toggle("dark", theme === "dark");
+        localStorage.setItem("theme", theme);
+    }, [theme]);
+
     return (
 
         <section className="py-2 z-[999] bg-white dark:bg-zinc-900" style={{ position: "sticky", top: "0", left: "0" }}>
@@ -73,7 +88,19 @@ export default function Header() {
                         </NavigationMenuList>
                     </NavigationMenu>
                     <div className="hidden items-center gap-4 lg:flex">
-                        {/* <Button variant="outline">Sign in</Button> */}
+                        { theme === "light" ? (
+                            <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white hover:bg-zinc-800">
+                                <Moon className="h-4 w-4 m-3" onClick={() => {
+                                    setTheme("dark");
+                                    localStorage.setItem("theme", "dark");}} />
+                            </Button>
+                            ) : (
+                            <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white hover:bg-zinc-800">
+                                <Sun className="h-4 w-4 m-3" onClick={() => {
+                                    setTheme("light");
+                                    localStorage.setItem("theme", "light");}} />
+                                </Button>
+                            )}
                     </div>
                     <Sheet>
                         <SheetTrigger asChild className="lg:hidden">

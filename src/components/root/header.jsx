@@ -23,7 +23,7 @@ import Image from "next/image"
 import { useEffect, useState } from "react";
 
 export default function Header() {
-    const [theme, setTheme] = useState("dark");
+    const [theme, setTheme] = useState("light");
 
     useEffect(() => {
         const savedTheme = localStorage.getItem("theme");
@@ -59,7 +59,7 @@ export default function Header() {
                             <NavigationMenuItem>
                                 <NavigationMenuLink
                                     href="/projects"
-                                    className={navigationMenuTriggerStyle()}
+                                    className={`${navigationMenuTriggerStyle()} bg-white dark:bg-zinc-900`}
                                 >
                                     Projects
                                 </NavigationMenuLink>
@@ -67,7 +67,7 @@ export default function Header() {
                             <NavigationMenuItem>
                                 <NavigationMenuLink
                                     href="/blog"
-                                    className={navigationMenuTriggerStyle()}
+                                    className={`${navigationMenuTriggerStyle()} bg-white dark:bg-zinc-900`}
                                 >
                                     Blog
                                 </NavigationMenuLink>
@@ -75,7 +75,7 @@ export default function Header() {
                             <NavigationMenuItem>
                                 <NavigationMenuLink
                                     href="/Amoke Emmanuel Chinonye - Resume.pdf"
-                                    className={navigationMenuTriggerStyle()}
+                                    className={`${navigationMenuTriggerStyle()} bg-white dark:bg-zinc-900`}
                                 >
                                     Resume
                                 </NavigationMenuLink>
@@ -83,7 +83,7 @@ export default function Header() {
                             <NavigationMenuItem>
                                 <NavigationMenuLink
                                     href="/about"
-                                    className={navigationMenuTriggerStyle()}
+                                    className={`${navigationMenuTriggerStyle()} bg-white dark:bg-zinc-900`}
                                 >
                                     About Me
                                 </NavigationMenuLink>

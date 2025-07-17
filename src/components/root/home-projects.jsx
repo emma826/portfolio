@@ -49,7 +49,9 @@ export default async function HomeProjects() {
             )}
 
             <div className="p-2">
-                <h2 className="text-xl font-bold tracking-tight text-black dark:text-zinc-100 mb-2">{project.name}</h2>
+                <Link href={`/projects/${project.id}`} className="block">
+                    <h2 className="text-xl font-bold tracking-tight text-black dark:text-zinc-100 mb-2">{project.name}</h2>
+                </Link>
                 <p>{project.description}</p>
 
                 <Link href={project.github} target="_blank" className="relative z-10 mt-6 flex text-sm font-medium text-zinc-600 transition group-hover:text-teal-500 dark:text-zinc-200">

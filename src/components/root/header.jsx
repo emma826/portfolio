@@ -56,7 +56,7 @@ export default function Header() {
                             </NavigationMenuItem>
                             <NavigationMenuItem>
                                 <NavigationMenuLink
-                                    href="/resume"
+                                    href="/Amoke Emmanuel Chinonye - Resume.pdf"
                                     className={navigationMenuTriggerStyle()}
                                 >
                                     Resume
@@ -106,7 +106,7 @@ export default function Header() {
                                     <Link href="/blog" className="font-medium">
                                         Blog
                                     </Link>
-                                    <Link href="/resume" className="font-medium">
+                                    <Link href="/Amoke Emmanuel Chinonye - Resume.pdf" className="font-medium">
                                         Resume
                                     </Link>
                                     <Link href="/about" className="font-medium">

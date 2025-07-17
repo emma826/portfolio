@@ -1,6 +1,6 @@
 "use client";
 
-import { MenuIcon, Sun, Moon} from "lucide-react";
+import { MenuIcon, Sun, Moon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -88,19 +88,21 @@ export default function Header() {
                         </NavigationMenuList>
                     </NavigationMenu>
                     <div className="hidden items-center gap-4 lg:flex">
-                        { theme === "light" ? (
-                            <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white hover:bg-zinc-800">
+                        {theme === "light" ? (
+                            <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white cursor-pointer rounded-full">
                                 <Moon className="h-4 w-4 m-3" onClick={() => {
                                     setTheme("dark");
-                                    localStorage.setItem("theme", "dark");}} />
+                                    localStorage.setItem("theme", "dark");
+                                }} />
                             </Button>
-                            ) : (
-                            <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white hover:bg-zinc-800">
+                        ) : (
+                            <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white cursor-pointer rounded-full">
                                 <Sun className="h-4 w-4 m-3" onClick={() => {
                                     setTheme("light");
-                                    localStorage.setItem("theme", "light");}} />
-                                </Button>
-                            )}
+                                    localStorage.setItem("theme", "light");
+                                }} />
+                            </Button>
+                        )}
                     </div>
                     <Sheet>
                         <SheetTrigger asChild className="lg:hidden">
@@ -140,9 +142,25 @@ export default function Header() {
                                         About Us
                                     </Link>
                                 </div>
-                                {/* <div className="mt-6 flex flex-col gap-4">
-                                    <Button variant="outline">Sign in</Button>
-                                </div> */}
+                                <div className="mt-6 flex flex-col gap-4">
+                                    {theme === "light" ? (
+                                        <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white cursor-pointer flex items-center gap-1 w-full">
+                                            <Moon className="h-4 w-4 my-3" onClick={() => {
+                                                setTheme("dark");
+                                                localStorage.setItem("theme", "dark");
+                                            }} />
+                                            Dark
+                                        </Button>
+                                    ) : (
+                                        <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white cursor-pointer flex items-center gap-1 w-full">
+                                            <Sun className="h-4 w-4 my-3" onClick={() => {
+                                                setTheme("light");
+                                                localStorage.setItem("theme", "light");
+                                            }} />
+                                            Light
+                                        </Button>
+                                    )}
+                                </div>
                             </div>
                         </SheetContent>
                     </Sheet>

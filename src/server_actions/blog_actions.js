@@ -6,9 +6,9 @@ export async function get_admin_blogs() {
     try {
         const queryText = "SELECT * FROM portfolio_blogs ORDER BY id DESC";
         const { rows: blogs } = await query(queryText);
-        return {success: true, blogs}
+        return { success: true, blogs }
     } catch (error) {
-        return {succes: false, message: "Database error"}
+        return { succes: false, message: "Database error" }
     }
 }
 
@@ -59,6 +59,17 @@ export async function add_blogs(title, meta_description, featureImage) {
     }
 }
 
-export async function add_blog_body(id, blog_body) {
+export async function home_blog() {
+    const sql = `
+        SELECT * FROM portfolio_projects
+        ORDER BY created_at DESC LIMIT 4;
+    `
 
+    try {
+        const res = await query(sql);
+        return { success: true, blogs: res.rows };
+    } catch (error) {
+        console.error("Error fetching projects:", error);
+        return { success: false, message: "Database error." };
+    }
 }

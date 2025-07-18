@@ -98,12 +98,12 @@ export default function Header() {
                     </NavigationMenu>
                     <div className="hidden items-center gap-4 lg:flex">
                         {theme === "light" ? (
-                            <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white cursor-pointer rounded-full">
-                                <Moon className="h-4 w-4 m-3" onClick={() => setTheme("dark")} />
+                            <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white cursor-pointer rounded-full" onClick={() => setTheme("dark")}>
+                                <Moon className="h-4 w-4 m-3" />
                             </Button>
                         ) : (
-                            <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white cursor-pointer rounded-full">
-                                <Sun className="h-4 w-4 m-3" onClick={() => setTheme("light")} />
+                            <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white cursor-pointer rounded-full" onClick={() => setTheme("light")}>
+                                <Sun className="h-4 w-4 m-3" />
                             </Button>
                         )}
                     </div>
@@ -147,12 +147,12 @@ export default function Header() {
                                 </div>
                                 <div className="mt-6 flex flex-col gap-4">
                                     {theme === "light" ? (
-                                        <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white cursor-pointer flex items-center gap-1 w-full">
-                                            <Moon className="h-4 w-4 my-3" onClick={() => setTheme("dark")} />
+                                        <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white cursor-pointer flex items-center gap-1 w-full" onClick={() => setTheme("dark")}>
+                                            <Moon className="h-4 w-4 my-3"/>
                                             Dark
                                         </Button>
                                     ) : (
-                                        <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white cursor-pointer flex items-center gap-1 w-full">
+                                        <Button variant="outline" size="icon" className="dark:bg-zinc-800 dark:text-white cursor-pointer flex items-center gap-1 w-full" onClick={() => setTheme("light")}>
                                             <Sun className="h-4 w-4 my-3" onClick={() => setTheme("light")} />
                                             Light
                                         </Button>

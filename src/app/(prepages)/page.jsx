@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import HomeProjects from "@/components/root/home-projects";
-import HomeArticles from "@/components/root/home-articles";
+import HomeBlog from "@/components/root/home-blog";
 
 export default function Home() {
 	return (
@@ -74,7 +74,7 @@ export default function Home() {
 						<div className="relative px-4 sm:px-8 lg:px-12">
 							<div className="mx-auto max-w-2xl lg:max-w-5xl">
 								<div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
-									<HomeArticles />
+									<HomeBlog />
 
 									<div className="space-y-10 lg:pl-16 xl:pl-24">
 
@@ -90,14 +90,44 @@ export default function Home() {
 												<li className="flex gap-4">
 													<dl className="flex flex-auto flex-wrap gap-x-2">
 														<dt className="sr-only">Company</dt>
-														<dd className="w-full flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">Planetaria</dd>
+														<dd className="w-full flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">NeuroStack AI Labs - Remote</dd>
 														<dt className="sr-only">Role</dt>
-														<dd className="text-xs text-zinc-500 dark:text-zinc-400">CEO</dd>
+														<dd className="text-xs text-zinc-500 dark:text-zinc-400">Deep Learning Engineer Intern</dd>
 														<dt className="sr-only">Date</dt>
 														<dd className="ml-auto text-xs text-zinc-400 dark:text-zinc-500" aria-label="2019 until Present">
-															<time dateTime="2019">2019</time>
+															<time dateTime="2019">Jan. 2023</time>
 															<span aria-hidden="true">—</span>
-															<time dateTime="2025">Present</time>
+															<time dateTime="2025">April 2023</time>
+														</dd>
+													</dl>
+												</li>
+
+												<li className="flex gap-4">
+													<dl className="flex flex-auto flex-wrap gap-x-2">
+														<dt className="sr-only">Company</dt>
+														<dd className="w-full flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">Vision Forge Analytics</dd>
+														<dt className="sr-only">Role</dt>
+														<dd className="text-xs text-zinc-500 dark:text-zinc-400">Computer Vision Research Assistant</dd>
+														<dt className="sr-only">Date</dt>
+														<dd className="ml-auto text-xs text-zinc-400 dark:text-zinc-500" aria-label="2019 until Present">
+															<time dateTime="2019">Sept. 2023</time>
+															<span aria-hidden="true">—</span>
+															<time dateTime="2025">June 2024</time>
+														</dd>
+													</dl>
+												</li>
+
+												<li className="flex gap-4">
+													<dl className="flex flex-auto flex-wrap gap-x-2">
+														<dt className="sr-only">Company</dt>
+														<dd className="w-full flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">Simulearn Dynamics - Remote</dd>
+														<dt className="sr-only">Role</dt>
+														<dd className="text-xs text-zinc-500 dark:text-zinc-400">Reinforcement Learning Project Contributor</dd>
+														<dt className="sr-only">Date</dt>
+														<dd className="ml-auto text-xs text-zinc-400 dark:text-zinc-500" aria-label="2019 until Present">
+															<time dateTime="2019">July 2024</time>
+															<span aria-hidden="true">—</span>
+															<time dateTime="2025">Feb. 2025</time>
 														</dd>
 													</dl>
 												</li>

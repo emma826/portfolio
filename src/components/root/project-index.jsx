@@ -1,7 +1,6 @@
 'use client'
 
 import Link from "next/link"
-import Image from "next/image"
 
 import { Button } from "../ui/button"
 import { useEffect, useState } from "react"
@@ -79,6 +78,10 @@ export default function ProjectIndex() {
                     </li>
                 ))}
             </ul>
+
+            {hasMore && (
+                <Button className="max-w-60 mx-auto bg-green-800 text-white mt-16 block hover:bg-green-600" onClick={() => loadProjects(offset)}>Load More</Button>
+            )}
         </div>
     );
 }

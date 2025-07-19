@@ -1,5 +1,7 @@
 'use client'
 
+import { SearchIcon, Plus } from "lucide-react"
+
 import { Input } from "../ui/input"
 import { useEffect, useState } from "react"
 import { Button } from "../ui/button"
@@ -10,6 +12,8 @@ import {
     Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger
 } from "@/components/ui/dialog"
 import { Textarea } from "../ui/textarea"
+
+import Link from "next/link"
 
 import { add_projects, get_projects, delete_project } from "@/server_actions/project_actions"
 
@@ -99,18 +103,18 @@ export default function ProjectTable() {
 
     return (
         <>
-            <div className="flex justify-between">
-                <div>
-                    <Input type={`text`} placeholder="Search ..." />
+            <div className="py-5 px-3 flex justify-between gap-2">
+                <div className="flex-auto">
+                    <div className="rounded-sm border w-80 border-gray-200 bg-white flex justify-between dark:border-gray-800 overflow-hidden dark:bg-white/[0.03]">
+                        <Input type="text" style={{ outline: "none", border: "none" }} placeholder="Search..." className="border-none flex-auto rounded-none focus:ring-0" />
+                        <SearchIcon className="block w-10 mt-1.5 cursor-pointer align-middle text-gray-500" />
+                    </div>
                 </div>
                 <div>
                     <Dialog>
-                        <DialogTrigger className="mt-2">
-                            <span className="bg-green-700 hover:bg-green-700 text-white rounded-lg px-4 py-2 cursor-pointer">
-                                Add
-                            </span>
+                        <DialogTrigger className="bg-green-800 cursor-pointer rounded-md py-2 px-2">
+                            <Plus className="w-5 h-5 mx-auto text-white" />
                         </DialogTrigger>
-
                         <DialogContent>
                             <DialogHeader>
                                 <DialogTitle>New Project</DialogTitle>
@@ -123,7 +127,7 @@ export default function ProjectTable() {
 
                                 <div className="grid w-full max-w-sm items-center gap-3 mb-3">
                                     <label htmlFor="project_name">Project Name</label>
-                                    <Input type={`text`} id="project_name" placeholder="Project Name" value={name} onChange={(e) => {setName(e.target.value)}} />
+                                    <Input type={`text`} id="project_name" placeholder="Project Name" value={name} onChange={(e) => { setName(e.target.value) }} />
                                 </div>
 
                                 <div className="grid w-full max-w-sm items-center gap-3 mb-3">
@@ -156,28 +160,30 @@ export default function ProjectTable() {
                             </DialogFooter>
                         </DialogContent>
                     </Dialog>
+
                 </div>
             </div>
 
-            <div className="max-w-4xl w-full mx-auto">
-                <h2 className="text-xl font-bold mb-2 mt-8">Project List</h2>
+            <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6 max-w-5xl mx-auto">
                 <Table>
-                    <TableHeader>
+                    <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
                         <TableRow>
+                            <TableHead className="w-[30px]">S/N</TableHead>
                             <TableHead>Title</TableHead>
                             <TableHead>Action</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {projects.map((project, index) => (
-                            <TableRow key={index} className={`w-full`}>
-                                <TableCell>{project.name}</TableCell>
-                                <TableCell>
-                                    {/* <button className="text-green-700 underline mr-2" onClick={() => handleEdit(project)}>Edit</button> */}
-                                    <button className="text-red-700 underline" onClick={async () => await delete_project(project.id)}>Delete</button>
+                            <TableRow key={project.id}>
+                                <TableCell className="font-medium">{index + 1}</TableCell>
+                                <TableCell className={`text-blue-900 dark:text-blue-200 whitespace-normal break-words`}>
+                                    <Link href={`projects/${project.id}`}>{project.name || ""}</Link>
                                 </TableCell>
+                                <TableCell className="break-words whitespace-normal">{project.description || ""}</TableCell>
                             </TableRow>
                         ))}
+
                     </TableBody>
                 </Table>
             </div>

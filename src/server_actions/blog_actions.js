@@ -61,7 +61,7 @@ export async function add_blogs(title, meta_description, featureImage) {
 
 export async function home_blog() {
     const sql = `
-        SELECT * FROM portfolio_projects
+        SELECT * FROM portfolio_blogs
         ORDER BY created_at DESC LIMIT 4;
     `
 

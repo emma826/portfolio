@@ -193,23 +193,12 @@ export default function BlogPage() {
                         {blogs.map((blog, index) => (
                             <TableRow key={blog.id}>
                                 <TableCell className="font-medium">{index+1}</TableCell>
-                                <TableCell className={`text-blue-900 dark:text-blue-200`}>
+                                <TableCell className={`text-blue-900 dark:text-blue-200 whitespace-normal break-words`}>
                                     <Link href={`blogs/${blog.id}`}>{blog.title || ""}</Link>
                                 </TableCell>
-                                <TableCell>{blog.meta_description || ""}</TableCell>
-                                {/* <TableCell>{new Date(blog.created_at).toDateString || ""}</TableCell> */}
+                                <TableCell className={`whitespace-normal break-words`}>{blog.meta_description || ""}</TableCell>
                             </TableRow>
                         ))}
-                        {/* <TableRow>
-							<TableCell className="font-medium">E</TableCell>
-							<TableCell className={`text-blue-900 dark:text-blue-200`}>
-								<Link href={`blog/1`}>How to Make a Cake</Link>
-							</TableCell>
-							<TableCell>Amoke Emmanuel Chinonye</TableCell>
-							<TableCell>Software Productivity</TableCell>
-							<TableCell>Published</TableCell>
-							<TableCell>5th Mar. 2025</TableCell>
-						</TableRow> */}
                     </TableBody>
                 </Table>
             </div>

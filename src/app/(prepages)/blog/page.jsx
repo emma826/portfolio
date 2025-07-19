@@ -9,7 +9,7 @@ export default function BlogPage() {
                     <div className="relative px-4 sm:px-8 lg:px-12">
                         <div className="mx-auto max-w-2xl lg:max-w-5xl">
                             <header className="max-w-2xl">
-                                <h1 className="text-3xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100">
+                                <h1 className="text-3xl font-bold tracking-tight text-green-800">
                                     Writing about deep learning, computer vision and the challenges of learning and building in public
                                 </h1>
                                 <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">

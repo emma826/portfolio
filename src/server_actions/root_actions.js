@@ -5,7 +5,7 @@ import { query } from "@/dbh";
 export async function get_home_projects() {
     const sql = `
         SELECT * FROM portfolio_projects
-        ORDER BY id DESC LIMIT 4;
+        ORDER BY id DESC LIMIT 6;
     `;
 
     try {

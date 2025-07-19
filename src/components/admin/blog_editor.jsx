@@ -3,27 +3,27 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
-import { Button } from "@/components/ui/button"
+import { TableKit } from '@tiptap/extension-table'
+import { Gapcursor } from '@tiptap/extensions'
 import React, { useRef } from 'react'
 
-export default function BlogEditor({ blog_id }) {
+import BlogPanel from './blog_panel'
+
+export default function BlogEditor({ blog_id, body }) {
     const fileInputRef = useRef(null)
     const editor = useEditor({
         extensions: [
             StarterKit,
             Image,
+            // Gapcursor,
+            TableKit.configure({
+                resizable: true,
+            }),
         ],
-        content: '',
+        content: body || '',
         autofocus: true,
         immediatelyRender: false
     })
-
-    // Toolbar actions
-    const setBold = () => editor?.chain().focus().toggleBold().run()
-    const setItalic = () => editor?.chain().focus().toggleItalic().run()
-    const setHeading2 = () => editor?.chain().focus().toggleHeading({ level: 2 }).run()
-    const setHeading3 = () => editor?.chain().focus().toggleHeading({ level: 3 }).run()
-    const addImage = () => fileInputRef.current.click()
 
     // Image upload handler
     const handleImageUpload = async (event) => {
@@ -33,15 +33,13 @@ export default function BlogEditor({ blog_id }) {
         const formData = new FormData()
         formData.append('file', file)
 
-        // Replace with your actual upload endpoint
-
         try {
             const res = await fetch('/api/admin/blog/uploadImage', {
                 method: 'POST',
                 body: formData,
             })
 
-            const {url, error, success} = await res.json()
+            const { url, error, success } = await res.json()
 
             if (!success) {
                 throw new Error(error || 'Image upload failed')
@@ -81,21 +79,18 @@ export default function BlogEditor({ blog_id }) {
 
     return (
         <div>
-            <div className='flex gap-1 mb-4 flex-wrap'>
-                <Button onClick={setBold} type="button"><b>B</b></Button>
-                <Button onClick={setItalic} type="button"><i>I</i></Button>
-                <Button onClick={setHeading2} type="button">H2</Button>
-                <Button onClick={setHeading3} type="button">H3</Button>
-                <Button onClick={addImage} type="button">Image</Button>
-                <input
-                    type="file"
-                    accept="image/*"
-                    style={{ display: 'none' }}
-                    ref={fileInputRef}
-                    onChange={handleImageUpload}
-                />
-                <Button onClick={handlePublish} type="button" color="primary">Publish</Button>
-            </div>
+            <BlogPanel
+                editor={editor}
+                onImageUploadClick={() => fileInputRef.current.click()}
+                onPublish={handlePublish}
+            />
+            <input
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                ref={fileInputRef}
+                onChange={handleImageUpload}
+            />
             <EditorContent editor={editor} />
         </div>
     )

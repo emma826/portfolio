@@ -74,6 +74,7 @@ export default function Home() {
 						<div className="relative px-4 sm:px-8 lg:px-12">
 							<div className="mx-auto max-w-2xl lg:max-w-5xl">
 								<div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
+									
 									<HomeBlog />
 
 									<div className="space-y-10 lg:pl-16 xl:pl-24">

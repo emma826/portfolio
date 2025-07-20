@@ -4,7 +4,6 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
 import { TableKit } from '@tiptap/extension-table'
-import { Gapcursor } from '@tiptap/extensions'
 import React, { useRef } from 'react'
 
 import BlogPanel from './blog_panel'
@@ -79,6 +78,16 @@ export default function BlogEditor({ blog_id, body }) {
 
     return (
         <div>
+            <style>{`
+                .no-outline:focus {
+                    outline: none !important;
+                    box-shadow: none !important;
+                }
+                .no-outline *:focus {
+                    outline: none !important;
+                    box-shadow: none !important;
+                }
+            `}</style>
             <BlogPanel
                 editor={editor}
                 onImageUploadClick={() => fileInputRef.current.click()}
@@ -91,7 +100,11 @@ export default function BlogEditor({ blog_id, body }) {
                 ref={fileInputRef}
                 onChange={handleImageUpload}
             />
-            <EditorContent editor={editor} />
+            <EditorContent
+                editor={editor}
+                className="border p-4 rounded-xl no-outline min-h-96"
+                style={{ outline: 'none', boxShadow: 'none' }}
+            />
         </div>
     )
 }

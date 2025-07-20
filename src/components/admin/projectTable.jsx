@@ -120,32 +120,32 @@ export default function ProjectTable() {
                                 <DialogTitle>New Project</DialogTitle>
                             </DialogHeader>
 
-                            <div className="py-3 max-h-[70vh] overflow-y-auto">
+                            <div className="py-3 max-h-[70vh] overflow-y-auto px-1">
 
                                 {error && <p className="text-red-600 text-center my-2">{error}</p>}
                                 {success && <p className="text-green-600 text-center my-2">{success}</p>}
 
-                                <div className="grid w-full max-w-sm items-center gap-3 mb-3">
+                                <div className="grid w-full items-center gap-3 mb-3">
                                     <label htmlFor="project_name">Project Name</label>
                                     <Input type={`text`} id="project_name" placeholder="Project Name" value={name} onChange={(e) => { setName(e.target.value) }} />
                                 </div>
 
-                                <div className="grid w-full max-w-sm items-center gap-3 mb-3">
+                                <div className="grid w-full items-center gap-3 mb-3">
                                     <label htmlFor="project_description">Project Description</label>
                                     <Textarea id="project_description" placeholder="Project Description" rows={4} value={description} onChange={(e) => setDescription(e.target.value)} />
                                 </div>
 
-                                <div className="grid w-full max-w-sm items-center gap-3 mb-3">
+                                <div className="grid w-full items-center gap-3 mb-3">
                                     <label htmlFor="github_link">Github Link</label>
                                     <Input type={`text`} id="github_link" placeholder="Github Link" value={github} onChange={(e) => setGithub(e.target.value)} />
                                 </div>
 
-                                <div className="grid w-full max-w-sm items-center gap-3 mb-3">
+                                <div className="grid w-full items-center gap-3 mb-3">
                                     <label htmlFor="live_demo_link">Live Demo Link</label>
                                     <Input type={`text`} id="live_demo_link" placeholder="Live Demo Link" value={liveDemo} onChange={(e) => setLiveDemo(e.target.value)} />
                                 </div>
 
-                                <div className="grid w-full max-w-sm items-center gap-3 mb-3">
+                                <div className="grid w-full items-center gap-3 mb-3">
                                     <label htmlFor="feature_image">Feature Image</label>
                                     <Input type="file" id="feature_image" accept="image/*" onChange={handleImageChange} />
                                     {imagePreview && (
@@ -170,7 +170,7 @@ export default function ProjectTable() {
                         <TableRow>
                             <TableHead className="w-[30px]">S/N</TableHead>
                             <TableHead>Title</TableHead>
-                            <TableHead>Action</TableHead>
+                            <TableHead>Description</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

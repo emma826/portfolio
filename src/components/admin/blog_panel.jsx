@@ -5,20 +5,17 @@ export default function BlogPanel({ editor, onImageUploadClick, onPublish }) {
     if (!editor) return null
 
     return (
-        <div className="flex flex-wrap w-full mb-4 gap-1">
-            <div>
-                <button onClick={() => editor.chain().focus().toggleBold().run()}><b>B</b></button>
-                <button onClick={() => editor.chain().focus().toggleItalic().run()}><i>I</i></button>
+        <div className="flex flex-wrap w-full mb-4 bg-zinc-400 rounded-tl-lg rounded-tr-lg overflow-hidden">
+            <div className="flex max-w-20 border-r border-gray-800 dark:border-gray-300 items-center">
+                <button className="p-3 cursor-pointer hover:bg-zinc-500 select-auto" onClick={() => editor.chain().focus().toggleBold().run()}><b>B</b></button>
+                <button className="p-4 py-3 cursor-pointer hover:bg-zinc-500 select-auto" onClick={() => editor.chain().focus().toggleItalic().run()}><i>I</i></button>
             </div>
-            <div>
+            <div className="flex max-w-20 border-r border-gray-800 dark:border-gray-300 items-center">
                 <DropdownMenu>
-                    <DropdownMenuTrigger className="ml-2">
+                    <DropdownMenuTrigger className="p-3 cursor-pointer hover:bg-zinc-500 select-auto">
                         <span className="text-sm font-semibold">Text</span>
                         <span className="ml-1">▼</span>
                     </DropdownMenuTrigger>
-                    <DropdownMenuLabel className="text-sm font-semibold">
-                        Text Formatting
-                    </DropdownMenuLabel>
                     <DropdownMenuContent>
                         <DropdownMenuItem onClick={() => editor.chain().focus().setParagraph().run()}>Paragraph</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}>Heading 1</DropdownMenuItem>
@@ -27,15 +24,12 @@ export default function BlogPanel({ editor, onImageUploadClick, onPublish }) {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div>
+            <div className="flex max-w-20 border-r border-gray-800 dark:border-gray-300 items-center">
                 <DropdownMenu>
-                    <DropdownMenuTrigger className="ml-2">
+                    <DropdownMenuTrigger className="p-3 cursor-pointer hover:bg-zinc-500 select-auto">
                         <span className="text-sm font-semibold">Table</span>
                         <span className="ml-1">▼</span>
                     </DropdownMenuTrigger>
-                    <DropdownMenuLabel className="text-sm font-semibold">
-                        Table Options
-                    </DropdownMenuLabel>
                     <DropdownMenuContent>
                         <DropdownMenuItem onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}>Insert Table</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => editor.chain().focus().addRowBefore().run()}>Add Row Above</DropdownMenuItem>
@@ -54,61 +48,61 @@ export default function BlogPanel({ editor, onImageUploadClick, onPublish }) {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div>
-                <button onClick={() => editor.chain().focus().setTextAlign('left').run()}>
+            <div className="flex min-w-40 border-r border-gray-800 dark:border-gray-300 items-center">
+                <button className="p-3 cursor-pointer hover:bg-zinc-500 select-auto" onClick={() => editor.chain().focus().setTextAlign('left').run()}>
                     <AlignLeft />
                 </button>
-                <button onClick={() => editor.chain().focus().setTextAlign('center').run()}>
+                <button className="p-3 cursor-pointer hover:bg-zinc-500 select-auto" onClick={() => editor.chain().focus().setTextAlign('center').run()}>
                     <AlignCenter />
                 </button>
-                <button onClick={() => editor.chain().focus().setTextAlign('right').run()}>
+                <button className="p-3 cursor-pointer hover:bg-zinc-500 select-auto" onClick={() => editor.chain().focus().setTextAlign('right').run()}>
                     <AlignRight />
                 </button>
-                <button onClick={() => editor.chain().focus().setTextAlign('justify').run()}>
+                <button className="p-3 cursor-pointer hover:bg-zinc-500 select-auto" onClick={() => editor.chain().focus().setTextAlign('justify').run()}>
                     <AlignJustify />
                 </button>
             </div>
-            <div>
-                <button onClick={() => editor.chain().focus().toggleBulletList().run()}>
+            <div className="flex min-w-20 border-r border-gray-800 dark:border-gray-300 items-center">
+                <button className="p-3 cursor-pointer hover:bg-zinc-500 select-auto" onClick={() => editor.chain().focus().toggleBulletList().run()}>
                     <List />
                 </button>
-                <button onClick={() => editor.chain().focus().toggleOrderedList().run()}>
+                <button className="p-3 cursor-pointer hover:bg-zinc-500 select-auto" onClick={() => editor.chain().focus().toggleOrderedList().run()}>
                     <ListOrdered />
                 </button>
             </div>
-            <div>
-                <button onClick={() => editor.chain().focus().sinkListItem('listItem').run()}>
+            <div className="flex min-w-20 border-r border-gray-800 dark:border-gray-300 items-center">
+                <button className="p-3 cursor-pointer hover:bg-zinc-500 select-auto" onClick={() => editor.chain().focus().sinkListItem('listItem').run()}>
                     <Indent />
                 </button>
-                <button onClick={() => editor.chain().focus().liftListItem('listItem').run()}>
+                <button className="p-3 cursor-pointer hover:bg-zinc-500 select-auto" onClick={() => editor.chain().focus().liftListItem('listItem').run()}>
                     <Outdent />
                 </button>
             </div>
-            <div>
-                <button onClick={() => editor.chain().focus().toggleLink({ href: prompt('Enter URL') }).run()}>
+            <div className="flex min-w-20 border-r border-gray-800 dark:border-gray-300 items-center">
+                <button className="p-3 cursor-pointer hover:bg-zinc-500 select-auto" onClick={() => editor.chain().focus().toggleLink({ href: prompt('Enter URL') }).run()}>
                     <Link />
                 </button>
-                <button onClick={() => editor.chain().focus().unsetLink().run()}>
+                <button className="p-3 cursor-pointer hover:bg-zinc-500 select-auto" onClick={() => editor.chain().focus().unsetLink().run()}>
                     <Link2Off />
                 </button>
             </div>
-            <div>
-                <button onClick={() => editor.chain().focus().toggleBlockquote().run()}>
+            <div className="flex min-w-20 border-r border-gray-800 dark:border-gray-300 items-center">
+                <button className="p-3 cursor-pointer hover:bg-zinc-500 select-auto" onClick={() => editor.chain().focus().toggleBlockquote().run()}>
                     <Quote />
                 </button>
-                <button onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
+                <button className="p-3 cursor-pointer hover:bg-zinc-500 select-auto" onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
                     <Code />
                 </button>
             </div>
-            <div>
-                <button onClick={onImageUploadClick}>
+            <div className="flex min-w-20 border-r border-gray-800 dark:border-gray-300 items-center">
+                <button className="p-3 cursor-pointer hover:bg-zinc-500 select-auto" onClick={onImageUploadClick}>
                     <ImageIcon />
                 </button>
-                <button disabled>
+                <button className="p-3 cursor-pointer hover:bg-zinc-500 select-auto" disabled>
                     <Video />
                 </button>
             </div>
-            <button className="ml-2" onClick={onPublish}>Publish</button>
+            <button className="p-3 bg-green-800 flex-auto px-auto cursor-pointer hover:bg-green-700 select-auto" onClick={onPublish}>Publish</button>
         </div>
     )
 }

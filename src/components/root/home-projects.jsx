@@ -1,28 +1,31 @@
-import Image from "next/image"
+'use client'
+
+import {useState, useEffect, use} from 'react'
 import Link from "next/link"
 
 import { get_home_projects } from "@/server_actions/root_actions"
 
 export default async function HomeProjects() {
 
-    const { success, projects, message } = await get_home_projects();
+    const [main_projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    if (!success) {
-        return (
-            <div className="text-red-500">
-                {message || "Failed to load projects."}
-            </div>
-        );
-    }
-    if (projects.length === 0) {
-        return (
-            <div className="text-gray-500">
-                No projects available.
-            </div>
-        );
-    }
+    useEffect(() => {
+        async function fetchHomeProjects() {
+            const { success, projects, message } = await get_home_projects();
 
-    return projects.map((project, idx) => (
+            if (success) {
+                setProjects(projects);
+            } else {
+                console.error(message || "Failed to load projects.");
+            }
+            setLoading(false);
+        }
+
+        fetchHomeProjects();
+    }, []);
+
+    return main_projects.map((project, idx) => (
         <li key={project.id || idx} className="group relative flex flex-col items-start border border-zinc-100 dark:border-zinc-700/40 rounded-lg py-2 px-4 overflow-hidden w-full">
             <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md ring-1 shadow-zinc-800/5 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
                 {project.feature_image !== "none" ? (

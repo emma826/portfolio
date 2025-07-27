@@ -1,19 +1,29 @@
+'use client'
+
+import { useState, useEffect } from 'react';
+
 import { home_blog } from "@/server_actions/blog_actions";
 import Link from "next/link";
 
 export default async function HomeBlog() {
 
-    const { success, message, blogs } = await home_blog();
+    const [main_blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    if (!success) {
-        return (
-            <div className="text-center mt-16">
-                <p className="text-red-500">{message}</p>
-            </div>
-        );
-    }
+    useEffect(() => {
+        async function fetchHomeBlogs() {
+            const { success, message, blogs } = await home_blog();
+            if (success) {
+                setBlogs(blogs);
+            } else {
+                console.error(message || "Failed to load blogs.");
+            }
+            setLoading(false);
+        }
+        fetchHomeBlogs();
+    }, []);
 
-    return blogs.map((blog, idx) => (
+    return main_blogs.map((blog, idx) => (
 
         <article key={idx} className="group relative flex flex-col items-start">
             <h2 className="text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">

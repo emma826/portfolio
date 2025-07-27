@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { home_blog } from "@/server_actions/blog_actions";
 import Link from "next/link";
 
-export default async function HomeBlog() {
+export default function HomeBlog() {
 
     const [main_blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -22,6 +22,20 @@ export default async function HomeBlog() {
         }
         fetchHomeBlogs();
     }, []);
+
+    if (loading) {
+        return (
+            <div className="space-y-4">
+                {[...Array(3)].map((_, idx) => (
+                    <div key={idx} className="animate-pulse">
+                        <div className="h-6 bg-zinc-200 dark:bg-zinc-700 rounded w-3/4 mb-2"></div>
+                        <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-1/2 mb-2"></div>
+                        <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-full"></div>
+                    </div>
+                ))}
+            </div>
+        );
+    }
 
     return main_blogs.map((blog, idx) => (
 

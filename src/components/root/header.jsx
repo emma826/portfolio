@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
     NavigationMenu,
     NavigationMenuItem,
-    NavigationMenuLink,
     NavigationMenuList,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
@@ -63,36 +62,36 @@ export default function Header() {
                     <NavigationMenu className="hidden lg:block">
                         <NavigationMenuList>
                             <NavigationMenuItem>
-                                <NavigationMenuLink
+                                <Link
                                     href="/projects"
                                     className={`${navigationMenuTriggerStyle()} bg-white dark:bg-zinc-900`}
                                 >
                                     Projects
-                                </NavigationMenuLink>
+                                </Link>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
-                                <NavigationMenuLink
+                                <Link
                                     href="/blog"
                                     className={`${navigationMenuTriggerStyle()} bg-white dark:bg-zinc-900`}
                                 >
                                     Blog
-                                </NavigationMenuLink>
+                                </Link>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
-                                <NavigationMenuLink
+                                <Link
                                     href="/Amoke Emmanuel Chinonye - Resume.pdf"
                                     className={`${navigationMenuTriggerStyle()} bg-white dark:bg-zinc-900`}
                                 >
                                     Resume
-                                </NavigationMenuLink>
+                                </Link>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
-                                <NavigationMenuLink
+                                <Link
                                     href="/about"
                                     className={`${navigationMenuTriggerStyle()} bg-white dark:bg-zinc-900`}
                                 >
                                     About Me
-                                </NavigationMenuLink>
+                                </Link>
                             </NavigationMenuItem>
                         </NavigationMenuList>
                     </NavigationMenu>

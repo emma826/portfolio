@@ -1,11 +1,11 @@
 'use client'
 
-import {useState, useEffect, use} from 'react'
+import {useState, useEffect} from 'react'
 import Link from "next/link"
 
 import { get_home_projects } from "@/server_actions/root_actions"
 
-export default async function HomeProjects() {
+export default function HomeProjects() {
 
     const [main_projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -24,6 +24,21 @@ export default async function HomeProjects() {
 
         fetchHomeProjects();
     }, []);
+
+    if (loading) {
+        return (
+            <>
+                {[...Array(4)].map((_, idx) => (
+                    <li key={idx} className="animate-pulse flex flex-col items-start border border-zinc-100 dark:border-zinc-700/40 rounded-lg py-2 px-4 w-full">
+                        <div className="h-12 w-12 bg-zinc-200 dark:bg-zinc-700 rounded-full mb-4"></div>
+                        <div className="h-6 bg-zinc-200 dark:bg-zinc-700 rounded w-3/4 mb-2"></div>
+                        <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-1/2 mb-2"></div>
+                        <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-full"></div>
+                    </li>
+                ))}
+            </>
+        );
+    }
 
     return main_projects.map((project, idx) => (
         <li key={project.id || idx} className="group relative flex flex-col items-start border border-zinc-100 dark:border-zinc-700/40 rounded-lg py-2 px-4 overflow-hidden w-full">
@@ -63,6 +78,5 @@ export default async function HomeProjects() {
                 <span className="ml-2">Live Demo</span>
             </Link>
         </li>
-    ))
-
+    ));
 }

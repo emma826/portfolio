@@ -1,6 +1,9 @@
 "use client"
 
 import * as React from "react"
+
+import { useState, useEffect } from "react"
+
 import {
   BookOpen,
   Bot,
@@ -85,6 +88,30 @@ const data = {
 }
 
 export function AppSidebar({ ...props }) {
+const [theme, setTheme] = useState("light");
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else {
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            setTheme(prefersDark ? "dark" : "light");
+        }
+    }, []);
+
+    useEffect(() => {
+
+        if(theme == "dark") {
+            document.documentElement.classList.add("dark");
+        }
+        else {
+            document.documentElement.classList.remove("dark");
+        }
+        localStorage.setItem("theme", theme);
+    }, [theme]);
+
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>

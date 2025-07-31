@@ -117,7 +117,7 @@ export async function edit_admin_blog_description(title, meta_description, image
     }
 
     if (updates.length === 0) {
-        return { success: false, message: "No fields to update." };
+        return { success: false, error: "No fields to update." };
     }
 
     values.push(blog_id);
@@ -128,11 +128,11 @@ export async function edit_admin_blog_description(title, meta_description, image
     try {
         const { rows } = await query(queryText, values);
         if (rows.length === 0) {
-            return { success: false, message: "Blog not found." };
+            return { success: false, error: "Blog not found." };
         }
-        return { success: true, message: "Blog updated successfully.", blog: rows[0] };
+        return { success: true, error: "Blog updated successfully.", blog: rows[0] };
     } catch (error) {
         console.error(error);
-        return { success: false, message: "Database error." };
+        return { success: false, error: "Database error." };
     }
 }

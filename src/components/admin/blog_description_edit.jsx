@@ -58,7 +58,7 @@ export default function BlogDescriptionEdit({ blog_details }) {
                     placeholder="Meta Description"
                 />
             </div>
-            {!image && (
+            {(image === 'none' || !image) && (
                 <div className='mb-2 border rounded-md overflow-hidden'>
                     {newImage ? (
                         <img
@@ -85,7 +85,7 @@ export default function BlogDescriptionEdit({ blog_details }) {
                 </div>
             )}
 
-            {image && (
+            {(image && !image == "none") && (
                 <div className="mb-2 rounded-md overflow-hidden">
                     <img src={`${process.env.NEXT_PUBLIC_STORAGE_SERVER}/featured_img/${image}`} alt="Current" className="w-full h-auto object-cover" />
                 </div>

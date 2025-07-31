@@ -77,7 +77,7 @@ export async function home_blog() {
 export async function edit_admin_blog_description(title, meta_description, image, blog_id) {
     let featured_image_name;
 
-    if(image.name) {
+    if (image) {
         const formData = new FormData()
         formData.append("file", image)
         formData.append("category", "featured_img");
@@ -98,6 +98,8 @@ export async function edit_admin_blog_description(title, meta_description, image
             return { success: false, message: "Image upload failed." };
         }
     }
+
+    return {success: false, error: featured_image_name}
 
     const updates = [];
     const values = [];

@@ -39,6 +39,7 @@ export default function BlogDescriptionEdit({ blog_details }) {
             setError('');
         }
         else {
+            alert(error)
             setError(error || 'Failed to update blog description.');
             setSuccess('');
         }

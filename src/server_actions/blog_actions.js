@@ -99,8 +99,6 @@ export async function edit_admin_blog_description(title, meta_description, image
         }
     }
 
-    return {success: false, error: featured_image_name}
-
     const updates = [];
     const values = [];
     let idx = 1;
@@ -125,6 +123,8 @@ export async function edit_admin_blog_description(title, meta_description, image
     values.push(blog_id);
     const queryText = `UPDATE portfolio_blogs SET ${updates.join(', ')} WHERE id = $${idx} RETURNING *`;
 
+    
+    return {success: false, error: queryText}
     try {
         const { rows } = await query(queryText, values);
         if (rows.length === 0) {

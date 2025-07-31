@@ -1,7 +1,6 @@
 'use client'
 
 import Link from "next/link"
-
 import { Button } from "../ui/button"
 import { useEffect, useState } from "react"
 
@@ -10,6 +9,7 @@ export default function ProjectIndex() {
     const [projects, setProjects] = useState([]);
     const [offset, setOffset] = useState(0);
     const [hasMore, setHasMore] = useState(true);
+    const [loading, setLoading] = useState(true);
     const limit = 12;
 
     useEffect(() => {
@@ -17,6 +17,7 @@ export default function ProjectIndex() {
     }, []);
 
     function loadProjects(newOffset) {
+        setLoading(true);
         fetch(`/api/root/get_project?offset=${newOffset}&limit=${limit}`)
             .then(response => response.json())
             .then(data => {
@@ -32,7 +33,27 @@ export default function ProjectIndex() {
             })
             .catch(error => {
                 console.error("Error fetching projects:", error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
+    }
+
+    if (loading && projects.length === 0) {
+        return (
+            <div className="mt-16 sm:mt-20">
+                <ul className="space-y-6">
+                    {[...Array(4)].map((_, idx) => (
+                        <li key={idx} className="animate-pulse flex flex-col items-start border border-zinc-100 dark:border-zinc-700/40 rounded-lg py-2 px-4">
+                            <div className="h-12 w-12 bg-zinc-200 dark:bg-zinc-700 rounded-full mb-4"></div>
+                            <div className="h-6 bg-zinc-200 dark:bg-zinc-700 rounded w-3/4 mb-2"></div>
+                            <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-1/2 mb-2"></div>
+                            <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-full"></div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        );
     }
 
     return (

@@ -72,6 +72,9 @@ export async function get_projects() {
 }
 
 export async function update_project(id, name, description, featureImage, github, liveDemo) {
+
+    let featured_image_name;
+
     // Validate inputs
     if (!name || !description || !featureImage || !github) {
         return { success: false, message: "All fields are required." };
@@ -81,33 +84,60 @@ export async function update_project(id, name, description, featureImage, github
         liveDemo = "#";
     }
 
-    const formData = new FormData();
-    formData.append("file", featureImage);
-    formData.append("category", "projects");
+    if (featureImage.name) {
 
-    let uploadResponse;
-    try {
-        uploadResponse = await fetch(`${process.env.STORAGE_SERVER}`, {
-            method: "POST",
-            body: formData,
-        });
-        if (!uploadResponse.ok) {
-            return { success: false, message: "Failed to upload image." };
+        const formData = new FormData();
+        formData.append("file", featureImage);
+        formData.append("category", "projects");
+
+        let uploadResponse;
+        try {
+            uploadResponse = await fetch(`${process.env.STORAGE_SERVER}`, {
+                method: "POST",
+                body: formData,
+            });
+            if (!uploadResponse.ok) {
+                return { success: false, message: "Failed to upload image." };
+            }
+            const uploadResult = await uploadResponse.json();
+            featured_image_name = uploadResult.fileName || featureImage.name;
+        } catch (error) {
+            console.error("Image upload error:", error);
+            return { success: false, message: "Image upload failed." };
         }
-        const uploadResult = await uploadResponse.json();
-        featureImage = uploadResult.fileName || featureImage.name;
-    } catch (error) {
-        console.error("Image upload error:", error);
-        return { success: false, message: "Image upload failed." };
+
     }
 
-    const sql = `
-        UPDATE portfolio_projects
-        SET name = $1, description = $2, feature_image = $3, github = $4, live_demo = $5
-        WHERE id = $6;
-    `;
-
-    return query(sql, [name, description, featureImage, github, liveDemo, id])
+    let featureImageToUse;
+    
+        // If a new image was uploaded, use its name; otherwise, keep the existing image name in the database
+        if (featured_image_name) {
+            featureImageToUse = featured_image_name;
+        } else {
+            // Fetch the current feature_image from the database if no new image is uploaded
+            try {
+                const res = await query(
+                    "SELECT feature_image FROM portfolio_projects WHERE id = $1",
+                    [id]
+                );
+                if (res.rows.length > 0) {
+                    featureImageToUse = res.rows[0].feature_image;
+                } else {
+                    featureImageToUse = "none";
+                }
+            } catch (error) {
+                console.error("Error fetching existing feature_image:", error);
+                return { success: false, message: "Database error." };
+            }
+        }
+    
+        const sql = `
+            UPDATE portfolio_projects
+            SET name = $1, description = $2, feature_image = $3, github = $4, live_demo = $5
+            WHERE id = $6;
+        `;
+    
+        return query(sql, [name, description, featureImageToUse, github, liveDemo, id])
         .then(res => {
             if (res.rowCount === 0) {
                 return { success: false, message: "Project not found." };

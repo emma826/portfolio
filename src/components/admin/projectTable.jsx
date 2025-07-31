@@ -44,7 +44,7 @@ export default function ProjectTable() {
         }
     };
 
-    const submit_projects = () => {
+    const submit_projects = async () => {
         setUploading(true);
         setError("");
         setSuccess("");
@@ -64,7 +64,7 @@ export default function ProjectTable() {
             setLiveDemo("#");
         }
 
-        const addProjects = add_projects(name, description, featureImage, github, liveDemo);
+        const addProjects = await add_projects(name, description, featureImage, github, liveDemo);
 
         if (!addProjects.success) {
             setError(add_projects.message || "Failed to add project.");

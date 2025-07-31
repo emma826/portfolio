@@ -3,13 +3,14 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
-import { use, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function BlogIndex() {
 
     const [blogs, setBlogs] = useState([]);
     const [offset, setOffset] = useState(0);
     const [hasMore, setHasMore] = useState(true);
+    const [loading, setLoading] = useState(true);
     const limit = 12;
 
     useEffect(() => {
@@ -17,6 +18,7 @@ export default function BlogIndex() {
     }, []);
 
     function loadBlogs(newOffset) {
+        setLoading(true);
         fetch(`/api/root/get_blog?offset=${newOffset}&limit=${limit}`)
             .then(response => response.json())
             .then(data => {
@@ -32,14 +34,32 @@ export default function BlogIndex() {
             })
             .catch(error => {
                 console.error("Error fetching blogs:", error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
+    }
+
+    if (loading && blogs.length === 0) {
+        return (
+            <div className="mt-16 sm:mt-20">
+                <div className="space-y-6">
+                    {[...Array(3)].map((_, idx) => (
+                        <div key={idx} className="animate-pulse">
+                            <div className="h-6 bg-zinc-200 dark:bg-zinc-700 rounded w-3/4 mb-2"></div>
+                            <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-1/2 mb-2"></div>
+                            <div className="h-4 bg-zinc-200 dark:bg-zinc-700 rounded w-full"></div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
     }
 
     return (
         <div className="mt-16 sm:mt-20">
             <div className="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
                 <div className="flex max-w-4xl flex-col space-y-12 mx-auto">
-
                     {blogs.map((blog, idx) => (
                         <article key={blog.id || idx} className="md:grid md:grid-cols-4 md:items-baseline">
                             <div className="md:col-span-3 group relative flex flex-col items-start">
@@ -71,13 +91,11 @@ export default function BlogIndex() {
                             </time>
                         </article>
                     ))}
-
                 </div>
-
                 {hasMore && (
                     <Button className="max-w-60 mx-auto bg-green-800 text-white mt-16 block hover:bg-green-600" onClick={() => loadBlogs(offset)}>Load More</Button>
                 )}
             </div>
         </div>
-    )
+    );
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react';
+import { toast } from 'sonner';
 
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
@@ -19,30 +20,29 @@ export default function BlogDescriptionEdit({ blog_details }) {
     const [tags, setTags] = useState(blog_details.tags || []);
     const [category, setCategory] = useState(blog_details.category || '');
     const [status, setStatus] = useState(blog_details.status || 'draft');
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
 
     async function submit_details() {
         setLoading(true);
 
         if (!title || !meta_description) {
-            setError('Title and Meta Description are required.');
+            toast(<div className="bg-red-800">Title and Meta description are required</div>)
             setLoading(false);
             return;
         }
 
-        const {success, error} = await edit_admin_blog_description(title, meta_description, newImage, blog_details.id);
-        
+        const { success, error } = await edit_admin_blog_description(title, meta_description, newImage, blog_details.id);
+
         if (success) {
-            setSuccess('Blog description updated successfully.');
-            setError('');
+            toast(<div className="bg-green-800">Blog description updated successfully</div>);
+            setNewImage(null);
+            setImage('');
         }
         else {
-            alert(error)
-            setError(error || 'Failed to update blog description.');
-            setSuccess('');
+            toast(<div className="bg-red-800">{error || 'Failed to update blog description'}</div>);
         }
+
+        setLoading(false)
     }
 
     return (

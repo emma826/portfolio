@@ -99,38 +99,35 @@ export async function edit_admin_blog_description(title, meta_description, image
         }
     }
 
-    const updates = [];
-    const values = [];
-    let idx = 1;
+    let queryText;
+    let values;
 
-    if (title) {
-        updates.push(`title = $${idx++}`);
-        values.push(title);
-    }
-    if (meta_description) {
-        updates.push(`meta_description = $${idx++}`);
-        values.push(meta_description);
-    }
     if (featured_image_name !== undefined && featured_image_name !== null) {
-        updates.push(`featured_image = $${idx++}`);
-        values.push(feature_image_name);
+        queryText = `
+            UPDATE portfolio_blogs 
+            SET title = $1, meta_description = $2, featured_image = $3 
+            WHERE id = $4 
+            RETURNING *;
+        `;
+
+        values = [title, meta_description, featured_image_name, blog_id]
+    } else {
+        queryText = `
+            UPDATE portfolio_blogs 
+            SET title = $1, meta_description = $2 
+            WHERE id = $3 
+            RETURNING *;
+        `;
+
+        values = [title, meta_description, blog_id]
     }
 
-    if (updates.length === 0) {
-        return { success: false, error: "No fields to update." };
-    }
-
-    values.push(blog_id);
-    const queryText = `UPDATE portfolio_blogs SET ${updates.join(', ')} WHERE id = $${idx} RETURNING *`;
-
-    
-    return {success: false, error: queryText}
     try {
         const { rows } = await query(queryText, values);
         if (rows.length === 0) {
             return { success: false, error: "Blog not found." };
         }
-        return { success: true, error: "Blog updated successfully.", blog: rows[0] };
+        return { success: true, message: "Blog updated successfully.", blog: rows[0] };
     } catch (error) {
         console.error(error);
         return { success: false, error: "Database error." };

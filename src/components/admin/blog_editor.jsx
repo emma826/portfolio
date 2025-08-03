@@ -1,108 +1,119 @@
 'use client'
 
 import React, { useRef, useEffect, useState } from 'react'
-import EditorJS from '@editorjs/editorjs'
-import Header from '@editorjs/header'
-import ImageTool from '@editorjs/image'
-import List from '@editorjs/list'
-import Embed from '@editorjs/embed'
-import Marker from '@editorjs/marker'
-import LinkTool from '@editorjs/link'
-import CodeTool from '@editorjs/code'
-import Table from '@editorjs/table'
-import Paragraph from '@editorjs/paragraph'
-import Checklist from '@editorjs/checklist'
-import Warning from '@editorjs/warning'
-import RawTool from '@editorjs/raw'
 
 export default function BlogEditor({ blog_id, body }) {
     const editorInstance = useRef(null)
     const fileInputRef = useRef(null)
-    const [editorData, setEditorData] = useState(body || null)
+    const [editorData, setEditorData] = useState(body ? JSON.parse(body) : null) // Parse body if it's a JSON string
 
     useEffect(() => {
-        if (!editorInstance.current) {
-            editorInstance.current = new EditorJS({
-                holder: 'editorjs',
-                tools: {
-                    header: {
-                        class: Header,
-                        inlineToolbar: true,
-                        config: {
-                            placeholder: 'Enter a header',
+        let EditorJS
+        let Header, ImageTool, List, Embed, Marker, LinkTool, CodeTool, Table, Paragraph, Checklist, Warning, RawTool
+
+        // Dynamically import EditorJS and its tools to ensure they are only loaded on the client side
+        import('@editorjs/editorjs').then((module) => {
+            EditorJS = module.default
+            return Promise.all([
+                import('@editorjs/header'),
+                import('@editorjs/image'),
+                import('@editorjs/list'),
+                import('@editorjs/embed'),
+                import('@editorjs/marker'),
+                import('@editorjs/link'),
+                import('@editorjs/code'),
+                import('@editorjs/table'),
+                import('@editorjs/paragraph'),
+                import('@editorjs/checklist'),
+                import('@editorjs/warning'),
+                import('@editorjs/raw'),
+            ])
+        }).then((modules) => {
+            [Header, ImageTool, List, Embed, Marker, LinkTool, CodeTool, Table, Paragraph, Checklist, Warning, RawTool] = modules.map((mod) => mod.default)
+
+            if (!editorInstance.current) {
+                editorInstance.current = new EditorJS({
+                    holder: 'editorjs',
+                    tools: {
+                        header: {
+                            class: Header,
+                            inlineToolbar: true,
+                            config: {
+                                placeholder: 'Enter a header',
+                            },
                         },
-                    },
-                    list: {
-                        class: List,
-                        inlineToolbar: true,
-                    },
-                    image: {
-                        class: ImageTool,
-                        config: {
-                            uploader: {
-                                uploadByFile: async (file) => {
-                                    const formData = new FormData()
-                                    formData.append('file', file)
+                        list: {
+                            class: List,
+                            inlineToolbar: true,
+                        },
+                        image: {
+                            class: ImageTool,
+                            config: {
+                                uploader: {
+                                    uploadByFile: async (file) => {
+                                        const formData = new FormData()
+                                        formData.append('file', file)
 
-                                    try {
-                                        const res = await fetch('/api/admin/blog/uploadImage', {
-                                            method: 'POST',
-                                            body: formData,
-                                        })
-                                        const { url, success, message } = await res.json()
+                                        try {
+                                            const res = await fetch('/api/admin/blog/uploadImage', {
+                                                method: 'POST',
+                                                body: formData,
+                                            })
+                                            const { url, success, message } = await res.json()
 
-                                        if (!success) {
-                                            throw new Error(message || 'Image upload failed')
+                                            if (!success) {
+                                                throw new Error(message || 'Image upload failed')
+                                            }
+
+                                            return { success: 1, file: { url } }
+                                        } catch (error) {
+                                            console.error('Image upload error:', error)
+                                            return { success: 0 }
                                         }
-
-                                        return { success: 1, file: { url } }
-                                    } catch (error) {
-                                        console.error('Image upload error:', error)
-                                        return { success: 0 }
-                                    }
+                                    },
                                 },
                             },
                         },
-                    },
-                    embed: Embed,
-                    marker: Marker,
-                    linkTool: {
-                        class: LinkTool,
-                        config: {
-                            endpoint: '/api/admin/blog/fetchUrl', // Replace with your endpoint
+                        embed: Embed,
+                        marker: Marker,
+                        linkTool: {
+                            class: LinkTool,
+                            config: {
+                                endpoint: '/api/admin/blog/fetchUrl', // Replace with your endpoint
+                            },
                         },
-                    },
-                    code: CodeTool,
-                    table: {
-                        class: Table,
-                        inlineToolbar: true,
-                    },
-                    paragraph: {
-                        class: Paragraph,
-                        inlineToolbar: true,
-                    },
-                    checklist: Checklist,
-                    warning: {
-                        class: Warning,
-                        config: {
-                            titlePlaceholder: 'Warning title',
-                            messagePlaceholder: 'Warning message',
+                        code: CodeTool,
+                        table: {
+                            class: Table,
+                            inlineToolbar: true,
                         },
+                        paragraph: {
+                            class: Paragraph,
+                            inlineToolbar: true,
+                        },
+                        checklist: Checklist,
+                        warning: {
+                            class: Warning,
+                            config: {
+                                titlePlaceholder: 'Warning title',
+                                messagePlaceholder: 'Warning message',
+                            },
+                        },
+                        raw: RawTool,
                     },
-                    raw: RawTool,
-                },
-                data: editorData,
-                placeholder: 'Start writing your blog...',
-                autofocus: true,
-                onReady: () => {
-                    console.log('Editor.js is ready to work!')
-                },
-                onChange: async () => {
-                    const content = await editorInstance.current.save()
-                    setEditorData(content)
-                },
-            })
-        }
+                    data: editorData, // Load initial content into the editor
+                    placeholder: 'Start writing your blog...',
+                    autofocus: true,
+                    onReady: () => {
+                        console.log('Editor.js is ready to work!')
+                    },
+                    onChange: async () => {
+                        const content = await editorInstance.current.save()
+                        setEditorData(content)
+                    },
+                })
+            }
+        })
 
         return () => {
             if (editorInstance.current) {
@@ -152,6 +163,7 @@ export default function BlogEditor({ blog_id, body }) {
                     border: 1px solid #ccc;
                     padding: 10px;
                     border-radius: 8px;
+                    padding-left: 40px;
                 }
             `}</style>
             <div className="flex justify-end items-center mb-4">

@@ -71,17 +71,23 @@ export default async function Blog_urlPage({ params }) {
                                             <h1 className="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
                                                 {blogDetails.title}
                                             </h1>
-                                            
-                                            <time dateTime={blogDetails.created_at} className="flex my-3 items-center text-base text-zinc-400 dark:text-zinc-500">
+
+                                            <div className="md:flex gap-3 md:justify-between mt-4">
+                                                <div className="flex items-center text-base text-zinc-600 dark:text-zinc-400">
+                                                    Amoke Emmanuel Chinonye
+                                                </div>
+
+                                                <time dateTime={blogDetails.created_at} className="flex my-3 items-center text-base text-zinc-400 dark:text-zinc-500">
                                                 <span className="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
                                                 <span className="ml-3"> {new Date(blogDetails.created_at).toLocaleDateString("en-GB")} </span>
                                             </time>
+                                            </div>
 
                                             <img className="w-full h-auto rounded-lg my-3" src={`${process.env.NEXT_PUBLIC_STORAGE_SERVER}/featured_img/${blogDetails.featured_image}`} width={400} height={400} alt={blogDetails.title} />
                                         </header>
 
-                                        <BlogArticle blog_body={blogDetails.body} />
-                                        
+                                        <BlogArticle blog_body={JSON.parse(blogDetails.body)} />
+
                                     </article>
                                 </div>
                             </div>

@@ -1,5 +1,6 @@
 import { query } from "@/dbh";
 import { redirect } from "next/navigation";
+import BlogArticle from "@/components/root/blog-article";
 
 async function get_blog_details(blog_url) {
 
@@ -67,21 +68,19 @@ export default async function Blog_urlPage({ params }) {
                                 <div className="mx-auto max-w-2xl">
                                     <article>
                                         <header className="flex flex-col">
-                                            <h1 className="mt-6 text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
+                                            <h1 className="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
                                                 {blogDetails.title}
                                             </h1>
-
-                                            <img src={`${process.env.NEXT_PUBLIC_STORAGE_SERVER}/featured_img/${blogDetails.featured_image}`} width={400} height={400} alt={blogDetails.title} />
-
-                                            <time dateTime={blogDetails.created_at} className="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500">
+                                            
+                                            <time dateTime={blogDetails.created_at} className="flex my-3 items-center text-base text-zinc-400 dark:text-zinc-500">
                                                 <span className="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"></span>
                                                 <span className="ml-3"> {new Date(blogDetails.created_at).toLocaleDateString("en-GB")} </span>
                                             </time>
+
+                                            <img className="w-full h-auto rounded-lg my-3" src={`${process.env.NEXT_PUBLIC_STORAGE_SERVER}/featured_img/${blogDetails.featured_image}`} width={400} height={400} alt={blogDetails.title} />
                                         </header>
 
-                                        <div className="mt-8 prose dark:prose-invert" data-mdx-content="true">
-                                            {blogDetails.body}
-                                        </div>
+                                        <BlogArticle blog_body={blogDetails.body} />
                                         
                                     </article>
                                 </div>

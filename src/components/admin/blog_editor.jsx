@@ -1,78 +1,138 @@
 'use client'
 
-import { useEditor, EditorContent } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
-import Image from '@tiptap/extension-image'
-import { TableKit } from '@tiptap/extension-table'
-import React, { useRef } from 'react'
-
-import BlogPanel from './blog_panel'
+import React, { useRef, useEffect, useState } from 'react'
+import EditorJS from '@editorjs/editorjs'
+import Header from '@editorjs/header'
+import ImageTool from '@editorjs/image'
+import List from '@editorjs/list'
+import Embed from '@editorjs/embed'
+import Marker from '@editorjs/marker'
+import LinkTool from '@editorjs/link'
+import CodeTool from '@editorjs/code'
+import Table from '@editorjs/table'
+import Paragraph from '@editorjs/paragraph'
+import Checklist from '@editorjs/checklist'
+import Warning from '@editorjs/warning'
+import RawTool from '@editorjs/raw'
 
 export default function BlogEditor({ blog_id, body }) {
+    const editorInstance = useRef(null)
     const fileInputRef = useRef(null)
-    const editor = useEditor({
-        extensions: [
-            StarterKit,
-            Image,
-            // Gapcursor,
-            TableKit.configure({
-                resizable: true,
-            }),
-        ],
-        content: body || '',
-        autofocus: true,
-        immediatelyRender: false
-    })
+    const [editorData, setEditorData] = useState(body || null)
 
-    // Image upload handler
-    const handleImageUpload = async (event) => {
-        const file = event.target.files[0]
-        if (!file) return
+    useEffect(() => {
+        if (!editorInstance.current) {
+            editorInstance.current = new EditorJS({
+                holder: 'editorjs',
+                tools: {
+                    header: {
+                        class: Header,
+                        inlineToolbar: true,
+                        config: {
+                            placeholder: 'Enter a header',
+                        },
+                    },
+                    list: {
+                        class: List,
+                        inlineToolbar: true,
+                    },
+                    image: {
+                        class: ImageTool,
+                        config: {
+                            uploader: {
+                                uploadByFile: async (file) => {
+                                    const formData = new FormData()
+                                    formData.append('file', file)
 
-        const formData = new FormData()
-        formData.append('file', file)
+                                    try {
+                                        const res = await fetch('/api/admin/blog/uploadImage', {
+                                            method: 'POST',
+                                            body: formData,
+                                        })
+                                        const { url, success, message } = await res.json()
 
-        try {
-            const res = await fetch('/api/admin/blog/uploadImage', {
-                method: 'POST',
-                body: formData,
+                                        if (!success) {
+                                            throw new Error(message || 'Image upload failed')
+                                        }
+
+                                        return { success: 1, file: { url } }
+                                    } catch (error) {
+                                        console.error('Image upload error:', error)
+                                        return { success: 0 }
+                                    }
+                                },
+                            },
+                        },
+                    },
+                    embed: Embed,
+                    marker: Marker,
+                    linkTool: {
+                        class: LinkTool,
+                        config: {
+                            endpoint: '/api/admin/blog/fetchUrl', // Replace with your endpoint
+                        },
+                    },
+                    code: CodeTool,
+                    table: {
+                        class: Table,
+                        inlineToolbar: true,
+                    },
+                    paragraph: {
+                        class: Paragraph,
+                        inlineToolbar: true,
+                    },
+                    checklist: Checklist,
+                    warning: {
+                        class: Warning,
+                        config: {
+                            titlePlaceholder: 'Warning title',
+                            messagePlaceholder: 'Warning message',
+                        },
+                    },
+                    raw: RawTool,
+                },
+                data: editorData,
+                placeholder: 'Start writing your blog...',
+                autofocus: true,
+                onReady: () => {
+                    console.log('Editor.js is ready to work!')
+                },
+                onChange: async () => {
+                    const content = await editorInstance.current.save()
+                    setEditorData(content)
+                },
             })
+        }
 
-            const { url, error, success } = await res.json()
-
-            if (!success) {
-                throw new Error(error || 'Image upload failed')
+        return () => {
+            if (editorInstance.current) {
+                editorInstance.current.isReady
+                    .then(() => {
+                        editorInstance.current.destroy()
+                        editorInstance.current = null
+                    })
+                    .catch((error) => console.error('Error destroying Editor.js instance:', error))
             }
-
-            editor.chain().focus().setImage({ src: url }).run()
-            return
         }
-        catch (error) {
-            console.error('Image upload error:', error)
-            alert('Image upload failed')
-            return
-        }
-    }
+    }, []) // Empty dependency array ensures this runs only once
 
-    // Publish handler
     const handlePublish = async () => {
-        if (!editor) return;
-        const content = editor.getHTML();
         try {
+            const content = await editorInstance.current.save()
             const res = await fetch('/api/admin/blog/publish', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ blog_id, content }),
-            });
-            const result = await res.json();
+            })
+            const result = await res.json()
             if (result.success) {
-                alert('Blog published successfully!');
+                alert('Blog published successfully!')
             } else {
-                alert(result.message || 'Failed to publish blog');
+                alert(result.message || 'Failed to publish blog')
             }
         } catch (error) {
-            console.error('Publish error:', error);
-            alert('Failed to publish blog');
+            console.error('Publish error:', error)
+            alert('Failed to publish blog')
         }
     }
 
@@ -87,24 +147,28 @@ export default function BlogEditor({ blog_id, body }) {
                     outline: none !important;
                     box-shadow: none !important;
                 }
+                #editorjs {
+                    min-height: 400px;
+                    border: 1px solid #ccc;
+                    padding: 10px;
+                    border-radius: 8px;
+                }
             `}</style>
-            <BlogPanel
-                editor={editor}
-                onImageUploadClick={() => fileInputRef.current.click()}
-                onPublish={handlePublish}
-            />
+            <div className="flex justify-end items-center mb-4">
+                <button
+                    className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                    onClick={handlePublish}
+                >
+                    Publish Blog
+                </button>
+            </div>
             <input
                 type="file"
                 accept="image/*"
                 style={{ display: 'none' }}
                 ref={fileInputRef}
-                onChange={handleImageUpload}
             />
-            <EditorContent
-                editor={editor}
-                className="border p-4 rounded-xl no-outline min-h-96"
-                style={{ outline: 'none', boxShadow: 'none' }}
-            />
+            <div id="editorjs"></div>
         </div>
     )
 }

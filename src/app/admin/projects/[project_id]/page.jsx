@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { query } from "@/dbh";
 
 import ProjectDescriptionEdit from "@/components/admin/project_description_edit";
+import ProjectEditor from "@/components/admin/project-editor";
 
 export default async function PortfolioDetails({ params }) {
     const { project_id } = await params;
@@ -32,7 +33,7 @@ export default async function PortfolioDetails({ params }) {
 
             <div className="lg:flex-auto rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">{project_details.name}</h1>
-                {/* <BlogEditor blog_id={blog_id} body={blog_body} /> */}
+                <ProjectEditor project_id={project_details.id} body={project_body} />
             </div>
 
             <div className="lg:w-96 rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-white/[0.03]">

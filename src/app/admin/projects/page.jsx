@@ -1,5 +1,3 @@
-import { Card } from "@/components/ui/card"
-
 import ProjectTable from "@/components/admin/projectTable";
 
 export default function AdminProjectPage() {

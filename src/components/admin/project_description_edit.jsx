@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
+import { toast } from 'sonner';
 
 import { UploadIcon } from 'lucide-react';
 
@@ -24,29 +25,37 @@ export default function ProjectDescriptionEdit({ project }) {
 
     async function submitDetails() {
         setLoading(true);
+        setError('');
+        setSuccess('');
 
         if (!name || !description) {
             setError('Name and Description are required.');
             setLoading(false);
             return;
         }
-        const { success, error } = await update_project(name, description, newImage, github, live_demo, project.id);
+        const { success, message } = await update_project(project.id, name, description, newImage, github, live_demo);
         if (success) {
             setSuccess('Project details updated successfully.');
             setError('');
         } else {
-            setError(error || 'Failed to update project details.');
+            setError(message || 'Failed to update project details.');
             setSuccess('');
         }
         setLoading(false);
     }
 
+    useEffect(() => {
+        if (error) {
+            toast(<div className="text-red-500">{error}</div>)
+        }
+        if (success) {
+            toast(<div className="text-green-500">{success}</div>)
+        }
+    }, [error, success]);
+
     return (
         <>
             <div className="space-y-4">
-                {error && <div className="text-red-500">{error}</div>}
-                {success && <div className="text-green-500">{success}</div>}
-
                 <div className="mb-2">
                     <Input className="py-5" type="text" placeholder="Project Name" value={name} onChange={(e) => setName(e.target.value)} />
                 </div>
@@ -125,7 +134,7 @@ export default function ProjectDescriptionEdit({ project }) {
                     onChange={(e) => setLiveDemo(e.target.value)}
                 />
 
-                <Button onClick={submitDetails} disabled={loading}>
+                <Button onClick={submitDetails} disabled={loading} className="w-full max-w-60 block mt-4 bg-green-800 hover:bg-green-700 text-white mx-auto">
                     {loading ? 'Updating...' : 'Update Project'}
                 </Button>
             </div>

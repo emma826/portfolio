@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState } from 'react'
 
-export default function BlogEditor({ blog_id, body }) {
+export default function ProjectEditor({ project_id, body }) {
     const editorInstance = useRef(null)
     const fileInputRef = useRef(null)
     const [editorData, setEditorData] = useState(body ? JSON.parse(body) : null) // Parse body if it's a JSON string
@@ -130,10 +130,10 @@ export default function BlogEditor({ blog_id, body }) {
     const handlePublish = async () => {
         try {
             const content = await editorInstance.current.save()
-            const res = await fetch('/api/admin/blog/publish', {
+            const res = await fetch('/api/admin/publish/publish', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ blog_id, content }),
+                body: JSON.stringify({ project_id, content }),
             })
             const result = await res.json()
             if (result.success) {

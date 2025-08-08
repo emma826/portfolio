@@ -1,6 +1,6 @@
 import { query } from "@/dbh";
 import { redirect } from "next/navigation";
-// import BlogArticle from "@/components/root/blog-article";
+import ProjectArticle from '@/components/root/project-article'
 
 import { LinkIcon } from "lucide-react";
 
@@ -119,8 +119,8 @@ export default async function Project_idPage({ params }) {
                                     </div>
                                 </div>
 
-                                <div className="flex-auto py-4">
-                                    dd
+                                <div className="lg:flex-auto py-4">
+                                    <ProjectArticle projectDetails={projectDetails} />
                                 </div>
                             </div>
                         </div>

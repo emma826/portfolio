@@ -14,15 +14,31 @@ export default function BlogArticle({ blog_body }) {
                 }
             case "paragraph":
                 return <p key={block.id} dangerouslySetInnerHTML={{ __html: block.data.text }} />;
-            case "list":
-                return (
-                    <ul key={block.id}>
-                        {block.data.items.map((item, index) => (
-                            <li key={index} dangerouslySetInnerHTML={{ __html: item }} />
-                        ))}
-                    </ul>
-                );
-            // Add more cases for other block types as needed
+            case "list":                
+                    if (block.data.style === "unordered") {
+                        console.log("Unordered list detected");
+                        console.log(block.data.items);
+                        return (
+                            <ul key={block.id}>
+                                {block.data.items.map((item, index) => (
+                                    <li key={index} dangerouslySetInnerHTML={{ __html: item }} />
+                                ))}
+                            </ul>
+                        );
+                    }
+                    if (block.data.style === "ordered") {
+                        console.log("Ordered list detected");
+                        console.log(block.data.items);
+                        return (
+                            <ol key={block.id}>
+                                {block.data.items.map((item, index) => (
+                                    <li key={index} dangerouslySetInnerHTML={{ __html: item }} />
+                                ))}
+                            </ol>
+                        );
+
+                    }                
+            
             default:
                 return null;
         }

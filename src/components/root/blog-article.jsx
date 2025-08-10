@@ -33,9 +33,20 @@ export default function BlogArticle({ blog_body }) {
                             ))}
                         </ol>
                     );
-
                 }
-
+                case 'image':
+                return (
+                    <div key={block.id} className="flex justify-center">
+                        <img
+                            src={block.data.file.url}
+                            alt={block.data.caption || ''}
+                            className="max-w-full h-auto"
+                        />
+                        {block.data.caption && (
+                            <p className="text-center mt-2">{block.data.caption}</p>
+                        )}
+                    </div>
+                );
             default:
                 return null;
         }

@@ -3,42 +3,39 @@ export default function BlogArticle({ blog_body }) {
         switch (block.type) {
             case "header":
                 const header_tag = block.data.level
-                if(header_tag == 2) {
+                if (header_tag == 2) {
                     return <h2 key={block.id} dangerouslySetInnerHTML={{ __html: block.data.text }} />;
                 }
-                if(header_tag == 3) {
+                if (header_tag == 3) {
                     return <h3 key={block.id} dangerouslySetInnerHTML={{ __html: block.data.text }} />;
                 }
-                if(header_tag == 4) {
+                if (header_tag == 4) {
                     return <h4 key={block.id} dangerouslySetInnerHTML={{ __html: block.data.text }} />;
                 }
             case "paragraph":
                 return <p key={block.id} dangerouslySetInnerHTML={{ __html: block.data.text }} />;
-            case "list":                
-                    if (block.data.style === "unordered") {
-                        console.log("Unordered list detected");
-                        console.log(block.data.items);
-                        return (
-                            <ul key={block.id}>
-                                {block.data.items.map((item, index) => (
-                                    <li key={index} dangerouslySetInnerHTML={{ __html: item }} />
-                                ))}
-                            </ul>
-                        );
-                    }
-                    if (block.data.style === "ordered") {
-                        console.log("Ordered list detected");
-                        console.log(block.data.items);
-                        return (
-                            <ol key={block.id}>
-                                {block.data.items.map((item, index) => (
-                                    <li key={index} dangerouslySetInnerHTML={{ __html: item }} />
-                                ))}
-                            </ol>
-                        );
+            case "list":
+                console.log("list block", block);
+                if (block.data.style === "unordered") {
+                    return (
+                        <ul key={block.id}>
+                            {block.data.items.map((item, index) => (
+                                <li key={index} dangerouslySetInnerHTML={{ __html: item }} />
+                            ))}
+                        </ul>
+                    );
+                }
+                if (block.data.style === "ordered") {
+                    return (
+                        <ol key={block.id}>
+                            {block.data.items.map((item, index) => (
+                                <li key={index} dangerouslySetInnerHTML={{ __html: item }} />
+                            ))}
+                        </ol>
+                    );
 
-                    }                
-            
+                }
+
             default:
                 return null;
         }

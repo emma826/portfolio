@@ -15,12 +15,11 @@ export default function BlogArticle({ blog_body }) {
             case "paragraph":
                 return <p key={block.id} dangerouslySetInnerHTML={{ __html: block.data.text }} />;
             case "list":
-                console.log("list block", block);
                 if (block.data.style === "unordered") {
                     return (
                         <ul key={block.id}>
                             {block.data.items.map((item, index) => (
-                                <li key={index} dangerouslySetInnerHTML={{ __html: item }} />
+                                <li className="list-disc" key={index} dangerouslySetInnerHTML={{ __html: item.content }} />
                             ))}
                         </ul>
                     );
@@ -29,7 +28,7 @@ export default function BlogArticle({ blog_body }) {
                     return (
                         <ol key={block.id}>
                             {block.data.items.map((item, index) => (
-                                <li key={index} dangerouslySetInnerHTML={{ __html: item }} />
+                                <li className="list-decimal" key={index} dangerouslySetInnerHTML={{ __html: item.content }} />
                             ))}
                         </ol>
                     );

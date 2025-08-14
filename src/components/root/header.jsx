@@ -86,6 +86,14 @@ export default function Header() {
                                 </Link>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
+                                {/* <Link
+                                    href="/interview-hub"
+                                    className={`${navigationMenuTriggerStyle()} bg-white dark:bg-zinc-900`}
+                                >
+                                    Interview Hub
+                                </Link> */}
+                            </NavigationMenuItem>
+                            <NavigationMenuItem>
                                 <Link
                                     href="/about"
                                     className={`${navigationMenuTriggerStyle()} bg-white dark:bg-zinc-900`}
@@ -140,6 +148,9 @@ export default function Header() {
                                     <Link href="/Amoke Emmanuel Chinonye - Resume.pdf" className="font-medium">
                                         Resume
                                     </Link>
+                                    {/* <Link href="/interview-hub" className="font-medium">
+                                        Interview Hub
+                                    </Link> */}
                                     <Link href="/about" className="font-medium">
                                         About Us
                                     </Link>

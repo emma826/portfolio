@@ -13,6 +13,7 @@ export default function Footer() {
                                         <Link className="transition hover:text-teal-500 dark:hover:text-teal-400" href="/projects">Projects</Link>
                                         <Link className="transition hover:text-teal-500 dark:hover:text-teal-400" href="/blog">Blog</Link>
                                         <Link className="transition hover:text-teal-500 dark:hover:text-teal-400" href="/Amoke Emmanuel Chinonye - Resume.pdf">Resume</Link>
+                                        <Link className="transition hover:text-teal-500 dark:hover:text-teal-400" href="/interview-hub">Interview Hub</Link>
                                         <Link className="transition hover:text-teal-500 dark:hover:text-teal-400" href="/about">About Me</Link>
                                     </div>
                                     <p className="text-sm text-zinc-400 dark:text-zinc-500">

@@ -41,25 +41,45 @@ const data = {
   },
   navMain: [
     {
-      title: "Playground",
-      url: "#",
+      title: "Email List",
+      url: "/admin/email-list",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: "History",
+          title: "Compose",
           url: "#",
         },
         {
-          title: "Starred",
+          title: "Lead Magnets",
           url: "#",
         },
-        {
-          title: "Settings",
-          url: "#",
-        },
+        // {
+        //   title: "Settings",
+        //   url: "#",
+        // },
       ],
-    }
+    },
+    // {
+    //   title: "Playground",
+    //   url: "#",
+    //   icon: SquareTerminal,
+    //   isActive: true,
+    //   items: [
+    //     {
+    //       title: "History",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Starred",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Settings",
+    //       url: "#",
+    //     },
+    //   ],
+    // }
   ],
   navSecondary: [
     // {
@@ -83,6 +103,11 @@ const data = {
       name: "Blog",
       url: "/admin/blogs",
       icon: Map,
+    },
+    {
+      name: "Interview Hub",
+      url: "/admin/interview-hub",
+      icon: BookOpen,
     },
   ],
 }
@@ -132,8 +157,8 @@ const [theme, setTheme] = useState("light");
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        {/* <NavMain items={data.navMain} /> */}
         <NavProjects projects={data.projects} />
+        <NavMain items={data.navMain} />
         {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       {/* <SidebarFooter>

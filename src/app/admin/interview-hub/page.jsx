@@ -6,6 +6,14 @@ import { toast } from "sonner"
 import { SearchIcon, UploadIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectLabel, SelectContent, SelectGroup, SelectItem, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
 
 import { get_admin_interview_questions, submit_admin_questions } from "@/server_actions/interview-actions"
 

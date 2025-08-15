@@ -1,4 +1,4 @@
-export default function InterviewLeftSidebar() {
+export default function InterviewRightSidebar() {
     return (
         <nav class="nextra-toc nx-order-last nx-hidden nx-w-64 nx-shrink-0 xl:nx-block nx-px-4" aria-label="table of contents">
             <div class="nextra-scrollbar nx-sticky nx-top-16 nx-overflow-y-auto nx-pr-4 nx-pt-6 nx-text-sm [hyphens:auto] nx-max-h-[calc(100vh-var(--nextra-navbar-height)-env(safe-area-inset-bottom))] ltr:-nx-mr-4 rtl:-nx-ml-4">

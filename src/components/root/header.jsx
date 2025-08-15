@@ -77,14 +77,14 @@ export default function Header() {
                                     Blog
                                 </Link>
                             </NavigationMenuItem>
-                            <NavigationMenuItem>
+                            {/* <NavigationMenuItem>
                                 <Link
                                     href="/Amoke Emmanuel Chinonye - Resume.pdf"
                                     className={`${navigationMenuTriggerStyle()} bg-white dark:bg-zinc-900`}
                                 >
                                     Resume
                                 </Link>
-                            </NavigationMenuItem>
+                            </NavigationMenuItem> */}
                             <NavigationMenuItem>
                                 {/* <Link
                                     href="/interview-hub"
@@ -145,9 +145,9 @@ export default function Header() {
                                     <Link href="/blog" className="font-medium">
                                         Blog
                                     </Link>
-                                    <Link href="/Amoke Emmanuel Chinonye - Resume.pdf" className="font-medium">
+                                    {/* <Link href="/Amoke Emmanuel Chinonye - Resume.pdf" className="font-medium">
                                         Resume
-                                    </Link>
+                                    </Link> */}
                                     {/* <Link href="/interview-hub" className="font-medium">
                                         Interview Hub
                                     </Link> */}

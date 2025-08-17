@@ -13,26 +13,28 @@ export async function get_admin_blogs() {
 }
 
 export async function add_blogs(title, meta_description, featureImage) {
-    let featured_image_name = "none"
+    let featured_image_name = "none";
 
     if (!title || !meta_description) {
         return { success: false, message: "All fields are required." };
     }
 
+    // Upload featured image if provided
     if (featureImage) {
         const formData = new FormData();
         formData.append("file", featureImage);
         formData.append("category", "featured_img");
 
-        let uploadResponse;
         try {
-            uploadResponse = await fetch(`${process.env.STORAGE_SERVER}`, {
+            const uploadResponse = await fetch(`${process.env.STORAGE_SERVER}`, {
                 method: "POST",
                 body: formData,
             });
+
             if (!uploadResponse.ok) {
                 return { success: false, message: "Failed to upload image." };
             }
+
             const uploadResult = await uploadResponse.json();
             featured_image_name = uploadResult.fileName;
         } catch (error) {
@@ -41,22 +43,34 @@ export async function add_blogs(title, meta_description, featureImage) {
         }
     }
 
-    const url = title.toLowerCase().replace(/\s+/g, "-");
+    // Generate safe URL slug
+    const url = slugify(title);
 
     try {
-
-        const queryText = "INSERT INTO portfolio_blogs (title, meta_description, featured_image, url) VALUES ($1, $2, $3, $4) RETURNING id";
+        const queryText = `
+            INSERT INTO portfolio_blogs (title, meta_description, featured_image, url) 
+            VALUES ($1, $2, $3, $4) 
+            RETURNING id
+        `;
         const values = [title, meta_description, featured_image_name, url];
         const { rows } = await query(queryText, values);
         const blogId = rows[0].id;
 
-        return { success: true, message: "Blog created successfully", id: blogId }
-
-    }
-    catch (err) {
-        console.error(err)
+        return { success: true, message: "Blog created successfully", id: blogId };
+    } catch (err) {
+        console.error(err);
         return { success: false, message: "Database error." };
     }
+}
+
+function slugify(str) {
+    return str
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")  
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "");
 }
 
 export async function home_blog() {

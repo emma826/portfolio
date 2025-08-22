@@ -1,3 +1,5 @@
+import { Table, TableHead, TableHeader, TableBody, TableCell, TableRow } from "../ui/table";
+
 export default function BlogArticle({ blog_body }) {
     const renderBlock = (block) => {
         switch (block.type) {
@@ -19,7 +21,7 @@ export default function BlogArticle({ blog_body }) {
                     return (
                         <ul key={block.id}>
                             {block.data.items.map((item, index) => (
-                                <li className="list-disc" key={index} dangerouslySetInnerHTML={{ __html: item.content }} />
+                                <li className="list-disc " key={index} dangerouslySetInnerHTML={{ __html: item.content }} />
                             ))}
                         </ul>
                     );
@@ -33,7 +35,7 @@ export default function BlogArticle({ blog_body }) {
                         </ol>
                     );
                 }
-                case 'image':
+            case 'image':
                 return (
                     <div key={block.id} className="flex justify-center">
                         <img
@@ -46,6 +48,36 @@ export default function BlogArticle({ blog_body }) {
                         )}
                     </div>
                 );
+            case 'table':
+                const table_data = block.data.content || [];
+
+                if (table_data[0]) {
+                    return (
+                        <Table key={block.id} className="mb-4 mt-2 border-collapse">
+                            <TableHeader className={`border-b border-gray-100 dark:border-white/[0.05]`}>
+                                <TableRow className={"bg-muted"}>
+                                    {table_data[0].map((header, index) => (
+                                        <TableHead key={index} className="text-left font-medium border">
+                                            <span className="text-foreground">{header}</span>
+                                        </TableHead>
+                                    ))}
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {table_data.slice(1).map((row, rowIndex) => (
+                                    <TableRow key={rowIndex} className={`border-b border-gray-100 dark:border-white/[0.05]`}>
+                                        {row.map((cell, cellIndex) => (
+                                            <TableCell className="break-words whitespace-normal border" key={cellIndex}>
+                                                <span className="text-foreground" dangerouslySetInnerHTML={{ __html: cell }}></span>
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    )
+                }
+
             default:
                 return null;
         }

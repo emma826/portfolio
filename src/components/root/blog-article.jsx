@@ -19,18 +19,18 @@ export default function BlogArticle({ blog_body }) {
             case "list":
                 if (block.data.style === "unordered") {
                     return (
-                        <ul key={block.id}>
+                        <ul key={block.id} className="list-disc">
                             {block.data.items.map((item, index) => (
-                                <li className="list-disc " key={index} dangerouslySetInnerHTML={{ __html: item.content }} />
+                                <li key={index} dangerouslySetInnerHTML={{ __html: item.content }} />
                             ))}
                         </ul>
                     );
                 }
                 if (block.data.style === "ordered") {
                     return (
-                        <ol key={block.id}>
+                        <ol key={block.id} className="list-decimal">
                             {block.data.items.map((item, index) => (
-                                <li className="list-decimal" key={index} dangerouslySetInnerHTML={{ __html: item.content }} />
+                                <li key={index} dangerouslySetInnerHTML={{ __html: item.content }} />
                             ))}
                         </ol>
                     );

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import { SearchIcon, UploadIcon, Plus } from "lucide-react"
 import { Input } from "@/components/ui/input"
-// import { Select, SelectLabel, SelectContent, SelectGroup, SelectItem, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Select, SelectLabel, SelectContent, SelectGroup, SelectItem, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
     Dialog,
     DialogContent,
@@ -16,18 +16,20 @@ import {
 } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 import { get_admin_interview_questions, submit_admin_questions } from "@/server_actions/interview-actions"
+import { TableBody, TableRow, TableHeader, TableHead, TableCell, Table } from "@/components/ui/table"
 
-export default async function InterviewHub() {
+export default function InterviewHub() {
     const router = useRouter()
     const [questionPreview, setQuestionPreview] = useState("")
     const [question, setQuestion] = useState("")
     const [questionImage, setQuestionImage] = useState("")
     const [image, setImage] = useState("")
     const [questionCategory, setQuestionCategory] = useState("")
+    const [metaDescription, setMetaDescription] = useState("")
     const [questions, setQuestions] = useState([])
-    const [questionId, setQuestionId] = useState("")
 
     useEffect(() => {
         get_blogs();
@@ -55,9 +57,13 @@ export default async function InterviewHub() {
     };
 
     async function submitQuestions() {
-        const { success, message, question } = await submit_admin_questions(questionPreview, question, questionImage, questionCategory)
+        const { success, message, interviewQuestion } = await submit_admin_questions(questionPreview, metaDescription, question, questionImage, questionCategory)
 
         if (success) {
+            toast(<div className="text-green-800">{message}</div>)
+
+
+            setQuestions([interviewQuestion, ...questions]);
             return
         }
         else {
@@ -88,10 +94,14 @@ export default async function InterviewHub() {
                             <DialogHeader>
                                 <DialogTitle className="text-3xl border-b-gray-800 dark:border-b-gray-200 border-b-1 pb-4">Create Question</DialogTitle>
                             </DialogHeader>
-                            <div className="grid gap-4 pb-4 pt-2 max-h-[400px]">
+                            <div className="grid gap-4 pb-4 pt-2 max-h-[400px] overflow-y-auto h-96">
 
                                 <div className="mb-2">
-                                    <Input className="py-5" type="text" placeholder="Question Preview" value={questionPreview} onChange={(e) => setQuestionPreview(e.target.value)} />
+                                    <Input className="py-5" type="text" placeholder="Title" value={questionPreview} onChange={(e) => setQuestionPreview(e.target.value)} />
+                                </div>
+
+                                <div className="mb-2">
+                                    <Textarea className={`resize-none h-12`} value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} placeholder="Meta Description" />
                                 </div>
 
                                 <div className="mb-3">
@@ -103,15 +113,35 @@ export default async function InterviewHub() {
                                     />
                                 </div>
 
-                                {/* <Select></Select> */}
+                                <div className="mb-3">
+                                    <Select onValueChange={setQuestionCategory}>
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Select Category" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectScrollUpButton />
+                                            <SelectGroup>
+                                                <SelectLabel>Categories</SelectLabel>
+                                                <SelectItem value="AI/ML/DL Core">AI/ML/DL Core</SelectItem>
+                                                <SelectItem value="Computer Vision & Perception">Computer Vision & Perception</SelectItem>
+                                                <SelectItem value="Reinforcement Learning & Embodied AI">Reinforcement Learning & Embodied AI</SelectItem>
+                                                <SelectItem value="System Design For AI">System Design For AI</SelectItem>
+                                                <SelectItem value="Problem Solving">Problem Solving</SelectItem>
+                                                <SelectItem value="Non Technical Questions">Non Technical Questions</SelectItem>
+                                            </SelectGroup>
+                                            <SelectSeparator />
+                                            <SelectScrollDownButton />
+                                        </SelectContent>
+                                    </Select>
+                                </div>
 
-                                <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden dark:border-gray-800 dark:bg-white/[0.03]">
+                                <div className="rounded-2xl min-h-30 border border-gray-200 bg-white overflow-hidden dark:border-gray-800 dark:bg-white/[0.03]">
                                     <div className="relative upload_icon_holder">
                                         <Input type="file" className="absolute h-[500px] opacity-0" onChange={handleImageChange} />
                                         {image ? (
                                             <img src={image} alt="Uploaded" className="w-full h-full object-cover" />
                                         ) : (
-                                            <div className="flex justify-center items-center py-10 space-x-2">
+                                            <div className="flex justify-center items-center my-12 space-x-2">
                                                 <UploadIcon className="w-6 h-6" />
                                                 <span className="text-gray-500">Upload Image</span>
                                             </div>
@@ -126,6 +156,34 @@ export default async function InterviewHub() {
                         </DialogContent>
                     </Dialog>
                 </div>
+            </div>
+
+            <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+                <Table>
+                    <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
+                        <TableRow>
+                            <TableHead className="w-[30px]">S/N</TableHead>
+                            <TableHead>Question</TableHead>
+                            <TableHead>Meta Description</TableHead>
+                        </TableRow>
+                    </TableHeader>
+
+                    <TableBody>
+                        {questions.map((question, idx) => {
+                            return (
+                                <TableRow key={idx}>
+                                    <TableCell>{idx + 1}</TableCell>
+                                    <TableCell className="whitespace-normal break-words text-blue-900 dark:text-blue-200">
+                                        <Link href={`interview-hub/${question.id}`}>
+                                            {question.question}
+                                        </Link>
+                                    </TableCell>
+                                    <TableCell className={`whitespace-normal break-words`}>{question.meta_description}</TableCell>
+                                </TableRow>
+                            )
+                        })}
+                    </TableBody>
+                </Table>
             </div>
         </div>
     )

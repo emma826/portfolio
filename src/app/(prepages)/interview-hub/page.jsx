@@ -13,7 +13,7 @@ export default async function InterviewHub() {
                         <div className="mx-auto max-w-2xl lg:max-w-5xl">
                             <header className="max-w-2xl mx-auto">
                                 <h1 className="text-4xl font-bold tracking-tight text-green-800 text-center lg:text-5xl">
-                                    Welcome to Interview Hub
+                                    Welcome to Problem Hub
                                 </h1>
                                 {/* <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
                                     
@@ -31,7 +31,7 @@ export default async function InterviewHub() {
 
                             <div className="mt-12">
                                 <h2 className="text-2xl font-bold tracking-tight text-green-800 text-center lg:text-3xl">
-                                    Explore Interview Questions
+                                    Explore Real World Problems
                                 </h2>
                                 <p className="mt-4 mb-6 text-base text-zinc-600 dark:text-zinc-400 text-center">
                                     Browse through a wide range of interview questions to prepare for your next job interview.

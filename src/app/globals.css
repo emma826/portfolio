@@ -146,7 +146,9 @@
   --tw-prose-invert-code: oklch(87.1% 0.006 286.286);
   --tw-prose-invert-code-bg: oklab(92% 0.00112401 -0.00383883/.05);
   --tw-prose-invert-pre-code: oklch(96.7% 0.001 286.375);
-  --tw-prose-invert-pre-bg: #0006;
+  --tw-prose-invert-pre-bg: #0006;  
+  --tw-prose-pre-bg: oklch(96.744% 0.00143 285.225 / 0.747);
+  --tw-prose-pre-code: oklch(21% 0.006 285.885);
   --tw-prose-invert-pre-border: oklab(92% 0.00112401 -0.00383883/.1);
   --tw-prose-invert-th-borders: oklch(37% 0.013 285.805);
   --tw-prose-invert-td-borders: oklch(27.4% 0.006 286.033);
@@ -341,6 +343,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   overflow-x: auto;
+  position: relative;
 }
 
 .prose
@@ -348,7 +351,7 @@
   color: inherit;
   font-size: inherit;
   font-weight: inherit;
-  background-color: #0000;
+  background-color: #00000000;
   border-radius: 0;
   padding: 0;
   display: inline;

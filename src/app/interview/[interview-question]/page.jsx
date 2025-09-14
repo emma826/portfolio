@@ -14,7 +14,6 @@ async function get_interview_question(interviewQuestion) {
         return { success: true, content: res.rows[0] };
     }
     catch (error) {
-        console.error(error)
         return { success: false, message: "Failed to fetch interview question." };
     }
 }

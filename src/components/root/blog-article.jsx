@@ -1,4 +1,5 @@
 import { Table, TableHead, TableHeader, TableBody, TableCell, TableRow } from "../ui/table";
+import { CopyIcon } from "lucide-react";
 
 export default function BlogArticle({ blog_body }) {
     const renderBlock = (block) => {
@@ -77,7 +78,17 @@ export default function BlogArticle({ blog_body }) {
                         </Table>
                     )
                 }
+            case 'code':
+                return (
+                    <pre key={block.id} className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto relative">
 
+                        <CopyIcon className="absolute right-4 top-3 cursor-pointer p-2 rounded-md hover:bg-zinc-500 h-8 w-8" />
+
+                        <code className="text-sm text-gray-800 dark:text-gray-200">
+                            {block.data.code}
+                        </code>
+                    </pre>
+                )
             default:
                 return null;
         }

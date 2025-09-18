@@ -44,9 +44,9 @@ export default function Home() {
 						<div className="relative px-4 sm:px-8 lg:px-12">
 							<div className="mx-auto max-w-2xl lg:max-w-5xl">
 								<div className="max-w-2xl">
-									<h1 className="text-3xl font-extrabold tracking-tight text-green-800 sm:text-4xl">AI Engineer, robotics enthusiast, and builder of intelligent systems.</h1>
+									<h1 className="text-3xl font-extrabold tracking-tight text-green-800 sm:text-4xl">AI Systems Engineer | Computer Vision • NLP • MLOps</h1>
 									<p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-										I’m Amoke Emmanuel, a deep learning engineer focused on Computer Vision and Reinforcement Learning. I build systems that can perceive, learn, and act. My goal is to create AI that interacts with the real world through sight and decision-making.
+										I design and deploy AI systems that move beyond notebooks into production. My work spans Computer Vision, NLP, and MLOps; building real-time video analytics, retrieval-augmented assistants, and scalable ML pipelines. I focus on translating research into production-ready solutions that deliver measurable business impact.
 									</p>
 								</div>
 							</div>
